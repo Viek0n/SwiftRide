@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mircroservice</groupId>
-	<artifactId>matching-and-pricing-service</artifactId>
+	<artifactId>matching-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>

@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MatchingAndPricingServiceApplication {
+public class MatchingServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MatchingAndPricingServiceApplication.class, args);
+		SpringApplication.run(MatchingServiceApplication.class, args);
 	}
 
 }
