@@ -1,5 +1,5 @@
 package com.mircroservice.trip_service.domain.states;
 
-public class DriverArrivingState implements TripState {
+public class MatchingFailedState implements TripState{
     
 }
