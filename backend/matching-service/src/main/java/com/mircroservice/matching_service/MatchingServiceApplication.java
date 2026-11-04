@@ -1,4 +1,4 @@
-package com.mircroservice.matching_and_pricing_service;
+package com.mircroservice.matching_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
