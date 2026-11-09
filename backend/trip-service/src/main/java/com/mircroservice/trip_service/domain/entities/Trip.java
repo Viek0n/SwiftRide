@@ -21,7 +21,7 @@ public class Trip {
     private TripStatus status;
     private Double distance;
     private int price;
-    private String rider_id;
-    private String driver_id;
-    private Instant created_at;
+    private String riderId;
+    private String driverId;
+    private Instant createdAt;
 }

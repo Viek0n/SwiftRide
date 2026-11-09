@@ -16,13 +16,12 @@ import lombok.Setter;
 @NoArgsConstructor 
 public class Bill {
     private String id;
-    private String trip_id;
+    private String tripId;
     private Double amount;
     private String currency;
     private PaymentMethod method;
     private BillStatus status;
-    private String gateway_transation_id;
-    private String gateway_order_id;
-    private Instant created_at;
-    private Instant updated_at;
+    private String gatewayTransationId;
+    private String gatewayOrderId;
+    private Instant createdAt;
 }
