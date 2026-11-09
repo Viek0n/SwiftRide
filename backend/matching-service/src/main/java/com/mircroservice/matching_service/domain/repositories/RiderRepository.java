@@ -1,5 +1,14 @@
 package com.mircroservice.matching_service.domain.repositories;
 
-public interface RiderRepository {
-    
+import java.util.Optional;
+
+import com.mircroservice.matching_service.domain.entities.Rider;
+
+public interface RiderRepository{
+
+    Rider save(Rider rider);
+
+    Optional<Rider> findById(String id);
+
+    void deleteById(String id);
 }
