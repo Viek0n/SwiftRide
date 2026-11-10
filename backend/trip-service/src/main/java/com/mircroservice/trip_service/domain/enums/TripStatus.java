@@ -4,7 +4,7 @@ public enum TripStatus {
     MATCHING,
     MATCHINGFAIL,
     CANCELLED,
-    ARRIVING,
+    PICKUP,
     INPROGRESS,
     COMPLETED
 }
