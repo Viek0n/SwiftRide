@@ -1,37 +1,29 @@
 package com.mircroservice.matching_service.infrastructure.persistence.mongdb.mappers;
 
-
-import com.mircroservice.matching_service.domain.entities.Driver;
-import com.mircroservice.matching_service.infrastructure.persistence.mongdb.documents.DriverDocument;
+import com.mircroservice.matching_service.domain.entities.DriverProfile;
+import com.mircroservice.matching_service.infrastructure.persistence.mongdb.documents.DriverProfileDocument;
 
 public class DriverDocumentMapper {
-    public DriverDocument toDocument(Driver driver){
-        DriverDocument document = new DriverDocument();
+    public DriverProfileDocument toDocument(DriverProfile driver){
+        DriverProfileDocument document = new DriverProfileDocument();
 
-        document.setId(driver.getId());
-        document.setName(driver.getName());
-        document.setPhone(driver.getPhone());
-        document.setPassword(driver.getPassword());
+        document.setUserId(driver.getUserId());
+        document.setDriverLicense(driver.getDriverLicense());
+        document.setLicensePlate(driver.getLicensePlate());
 
         document.setAccountStatus(driver.getAccountStatus());
         document.setCreatedAt(driver.getCreatedAt());
         document.setUpdatedAt(driver.getUpdatedAt());
-
-        document.setActiveStatus(driver.getActiveStatus());
-        document.setActivePosition(driver.getActivePosition());
         return document;
     }
 
-    public Driver toDomain(DriverDocument document){
-        return new Driver(
-            document.getId(), 
-            document.getName(), 
-            document.getPhone(), 
-            document.getPassword(), 
+    public DriverProfile toDomain(DriverProfile document){
+        return new DriverProfile(
+            document.getUserId(), 
+            document.getDriverLicense(), 
+            document.getLicensePlate(), 
             document.getAccountStatus(), 
             document.getCreatedAt(), 
-            document.getUpdatedAt(), 
-            document.getActiveStatus(), 
-            document.getActivePosition());
+            document.getUpdatedAt());
     }
 }

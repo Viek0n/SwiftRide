@@ -1,4 +1,4 @@
-package com.mircroservice.trip_service.domain.constants;
+package com.mircroservice.matching_service.domain.constants;
 
 public interface PriceMultiplier {
     int price_per_meter = 5;

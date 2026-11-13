@@ -14,8 +14,8 @@ import java.time.Instant;
 @Getter 
 @Setter
 @NoArgsConstructor
-@Document(collection = "riders")
-public class RiderDocument {
+@Document(collection = "users")
+public class UserDocument {
 
     @Id
     private String id;
