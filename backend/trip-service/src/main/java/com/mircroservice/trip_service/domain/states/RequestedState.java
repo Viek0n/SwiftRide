@@ -2,19 +2,24 @@ package com.mircroservice.trip_service.domain.states;
 
 import com.mircroservice.trip_service.domain.enums.TripStatus;
 
-public class ArrivingState implements TripState {
+public class RequestedState implements TripState {
     @Override
     public TripStatus getStatus() {
-        return TripStatus.PICKUP;
+        return TripStatus.REQUESTED;
     }
 
     @Override
-    public TripState markPickedUp() {
-        return new InprogressState();
+    public TripState startMatching() {
+        return new MatchingState();
     }
 
     @Override
     public TripState cancel() {
         return new CancelledState();
+    }
+
+    @Override
+    public TripState markMatchingFailed() {
+        return new MatchingFailedState();
     }
 }

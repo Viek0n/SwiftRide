@@ -13,7 +13,7 @@ public class MatchingState implements TripState {
         if (driverId == null || driverId.isBlank()) {
             throw new IllegalArgumentException("driverId must not be blank");
         }
-        return new ArrivingState();
+        return new InprogressState();
     }
 
     @Override

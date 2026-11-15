@@ -5,5 +5,6 @@ public enum TripStatus {
     MATCHING,
     MATCHINGFAIL,
     INPROGRESS,
-    COMPLETED
+    COMPLETE,
+    CANCELLED
 }

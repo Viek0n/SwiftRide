@@ -1,6 +1,7 @@
 package com.mircroservice.matching_service.application.usecases;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class MatchingRideUseCase {
         this.userRepository = userRepository;
     }
 
-    public MatchingAttempt start(String tripId, String userId, Position riderPosition) {
+    public Optional<MatchingAttempt> start(String tripId, String userId, Position riderPosition) {
         if (tripId == null || tripId.isBlank()) {
             throw new IllegalArgumentException("Trip ID is required");
         }
@@ -54,7 +55,7 @@ public class MatchingRideUseCase {
 
         List<MatchingAttempt> attempts = matchingAttemptRepository.findByTripId(tripId);
         if (attempts.size() >= MAX_DRIVER_ATTEMPTS) {
-            throw new IllegalStateException("Maximum driver attempts reached for this trip");
+            return Optional.empty();
         }
 
         for (var driver : getNearbyActiveDrivers.execute(riderPosition)) {
@@ -71,14 +72,14 @@ public class MatchingRideUseCase {
                 continue;
             }
 
-            return matchingAttemptRepository.save(new MatchingAttempt(
+            return Optional.of(matchingAttemptRepository.save(new MatchingAttempt(
                 tripId,
                 userId,
                 driver.getUserId()
-            ));
+            )));
         }
 
-        throw new IllegalStateException("No available driver found for this trip");
+        return Optional.empty();
     }
 
     public MatchingAttempt accept(String tripId, String driverId) {

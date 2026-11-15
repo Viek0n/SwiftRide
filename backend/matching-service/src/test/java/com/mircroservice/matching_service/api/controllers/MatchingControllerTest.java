@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,7 +88,7 @@ class MatchingControllerTest {
     void matchReturnsTheDriverCurrentlyBeingAsked() throws Exception {
         Position origin = new Position(10.0, 106.0);
         when(matchingRide.start("trip-1", "rider-1", origin))
-            .thenReturn(new MatchingAttempt("trip-1", "rider-1", "driver-1"));
+            .thenReturn(Optional.of(new MatchingAttempt("trip-1", "rider-1", "driver-1")));
         when(matchingRide.getAttemptedDriverCount("trip-1")).thenReturn(1);
 
         mockMvc.perform(post("/match")
@@ -100,6 +101,19 @@ class MatchingControllerTest {
             .andExpect(jsonPath("$.tripId").value("trip-1"))
             .andExpect(jsonPath("$.userId").value("rider-1"))
             .andExpect(jsonPath("$.driverId").value("driver-1"));
+    }
+
+    @Test
+    void returnsNoContentWhenNoDriverIsAvailable() throws Exception {
+        when(matchingRide.start("trip-1", "rider-1", new Position(10.0, 106.0)))
+            .thenReturn(Optional.empty());
+
+        mockMvc.perform(post("/match")
+                .contentType("application/json")
+                .content("""
+                    {"tripId":"trip-1","userId":"rider-1","origin":{"lat":10.0,"lng":106.0}}
+                    """))
+            .andExpect(status().isNoContent());
     }
 
 }

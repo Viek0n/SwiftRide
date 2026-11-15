@@ -10,6 +10,6 @@ public class InprogressState implements TripState {
 
     @Override
     public TripState complete() {
-        return new CompletedState();
+        return new CompleteState();
     }
 }

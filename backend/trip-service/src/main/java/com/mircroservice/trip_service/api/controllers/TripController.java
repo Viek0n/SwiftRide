@@ -45,6 +45,11 @@ public class TripController {
         return tripService.getTripsForRider(riderId);
     }
 
+    @PatchMapping("/{tripId}/confirm")
+    public Trip confirmTrip(@PathVariable String tripId) {
+        return tripService.confirmTrip(tripId);
+    }
+
     @PatchMapping("/{tripId}/accept")
     public Trip acceptTrip(
         @PathVariable String tripId,
@@ -53,14 +58,20 @@ public class TripController {
         return tripService.assignDriver(tripId, request.driverId());
     }
 
-    @PatchMapping("/{tripId}/pickup")
-    public Trip markPickedUp(@PathVariable String tripId) {
-        return tripService.markPickedUp(tripId);
+    @PatchMapping("/{tripId}/reject")
+    public Trip rejectDriver(
+        @PathVariable String tripId,
+        @Valid @RequestBody DriverAssignmentRequest request
+    ) {
+        return tripService.rejectDriver(tripId, request.driverId());
     }
 
     @PatchMapping("/{tripId}/complete")
-    public Trip completeTrip(@PathVariable String tripId) {
-        return tripService.completeTrip(tripId);
+    public Trip completeTrip(
+        @PathVariable String tripId,
+        @Valid @RequestBody DriverAssignmentRequest request
+    ) {
+        return tripService.completeTrip(tripId, request.driverId());
     }
 
     @PatchMapping("/{tripId}/cancel")

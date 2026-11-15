@@ -61,22 +61,19 @@ class MatchingRideUseCaseTest {
             userRepository
         );
 
-        MatchingAttempt attempt = useCase.start("trip-1", "user-1", origin);
+        MatchingAttempt attempt = useCase.start("trip-1", "user-1", origin).orElseThrow();
         assertEquals("driver-1", attempt.getDriverId());
         useCase.decline("trip-1", attempt.getDriverId());
 
-        attempt = useCase.start("trip-1", "user-1", origin);
+        attempt = useCase.start("trip-1", "user-1", origin).orElseThrow();
         assertEquals("driver-2", attempt.getDriverId());
         useCase.decline("trip-1", attempt.getDriverId());
 
-        attempt = useCase.start("trip-1", "user-1", origin);
+        attempt = useCase.start("trip-1", "user-1", origin).orElseThrow();
         assertEquals("driver-3", attempt.getDriverId());
         useCase.decline("trip-1", attempt.getDriverId());
 
-        assertThrows(
-            IllegalStateException.class,
-            () -> useCase.start("trip-1", "user-1", origin)
-        );
+        org.junit.jupiter.api.Assertions.assertTrue(useCase.start("trip-1", "user-1", origin).isEmpty());
         assertEquals(3, storedAttempts.size());
         assertEquals(List.of("driver-1", "driver-2", "driver-3"),
             storedAttempts.stream().map(MatchingAttempt::getDriverId).toList());
@@ -110,7 +107,7 @@ class MatchingRideUseCaseTest {
             userRepository
         );
 
-        useCase.start("trip-1", "user-1", origin);
+        useCase.start("trip-1", "user-1", origin).orElseThrow();
         useCase.accept("trip-1", "driver-1");
         useCase.confirm("trip-1", "driver-1");
 

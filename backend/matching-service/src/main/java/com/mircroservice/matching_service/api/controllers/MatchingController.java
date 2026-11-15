@@ -56,9 +56,10 @@ public class MatchingController {
 
     @PostMapping
     public ResponseEntity<MatchingResponse> match(@RequestBody MatchRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-            toResponse(matchingRide.start(request.tripId(), request.userId(), request.origin()))
-        );
+        return matchingRide.start(request.tripId(), request.userId(), request.origin())
+            .map(this::toResponse)
+            .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
+            .orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     @PostMapping(MatchingRoute.ACCEPT)
