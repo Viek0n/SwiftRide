@@ -9,23 +9,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mircroservice.matching_service.api.routes.UserRoute;
+
 import com.mircroservice.matching_service.application.usecases.FindUserByIdUseCase;
 import com.mircroservice.matching_service.application.usecases.RegisterUserUseCase;
 import com.mircroservice.matching_service.domain.dto.requests.UserRegisterRequest;
 import com.mircroservice.matching_service.domain.dto.responses.UserResponse;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(UserRoute.BASE)
 public class UserController {
     private final RegisterUserUseCase registerUser;
     private final FindUserByIdUseCase findUserById;
 
-    public UserController(RegisterUserUseCase registerUser, FindUserByIdUseCase findUserById) {
+    public UserController(
+        RegisterUserUseCase registerUser, 
+        FindUserByIdUseCase findUserById) {
         this.registerUser = registerUser;
         this.findUserById = findUserById;
     }
 
-    @PostMapping("/register")
+    @PostMapping(UserRoute.REGISTER)
     public ResponseEntity<UserResponse> register(
         @RequestBody UserRegisterRequest request
     ) {
@@ -33,7 +37,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(UserRoute.PROFILE)
     public ResponseEntity<UserResponse> findById(@PathVariable String id) {
         return ResponseEntity.ok(findUserById.execute(id));
     }
