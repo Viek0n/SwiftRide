@@ -1,7 +1,83 @@
+
 server:
-  port: 8761
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+
+            # Matching endpoints are exposed under /api/matching and served under /match.
+            - id: matching-service
+              uri: lb://matching-service
+              predicates:
+                - Path=/api/matching
+              filters:
+                - SetPath=/match
+
+            - id: matching-service-api
+              uri: lb://matching-service
+              predicates:
+                - Path=/api/matching/**
+              filters:
+                - RewritePath=/api/matching/(?<segment>.*), /match/$\{segment}
+
+            - id: matching-auth
+              uri: lb://matching-service
+              predicates:
+                - Path=/api/auth/**
+              filters:
+                - StripPrefix=1
+
+            - id: matching-users
+              uri: lb://matching-service
+              predicates:
+                - Path=/api/users/**
+              filters:
+                - StripPrefix=1
+
+            - id: matching-drivers
+              uri: lb://matching-service
+              predicates:
+                - Path=/api/drivers/**
+              filters:
+                - StripPrefix=1
+
+            - id: matching-active-drivers
+              uri: lb://matching-service
+              predicates:
+                - Path=/api/active-drivers/**
+              filters:
+                - StripPrefix=1
+
+            # Trip Service
+            - id: trip-service
+              uri: lb://trip-service
+              predicates:
+                - Path=/api/trips/**
+
+            # Payment Service
+            - id: payment-service
+              uri: lb://payment-service
+              predicates:
+                - Path=/api/payments/**
+              filters:
+                - StripPrefix=1
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
