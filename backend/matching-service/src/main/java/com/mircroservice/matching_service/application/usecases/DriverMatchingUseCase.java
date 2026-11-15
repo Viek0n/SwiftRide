@@ -36,13 +36,21 @@ public class DriverMatchingUseCase {
 
         ActiveDriver activeDriver = activeDriverRepository.findById(userId)
             .orElseGet(() -> new ActiveDriver(userId, ActiveStatus.ONLINE, position));
-        if (activeDriver.getActiveStatus() == ActiveStatus.MATCH_FOUND
+        if (activeDriver.getActiveStatus() == ActiveStatus.MATCHING
+            || activeDriver.getActiveStatus() == ActiveStatus.MATCH_FOUND
             || activeDriver.getActiveStatus() == ActiveStatus.IN_MATCH) {
             throw new IllegalStateException("Tài xế đang tham gia một chuyến đi");
         }
 
-        activeDriver.setActiveStatus(ActiveStatus.ONLINE);
-        activeDriver.setActivePosition(position);
-        return activeDriverRepository.save(activeDriver);
+        if (!activeDriverRepository.updatePositionIfStatus(
+            userId,
+            activeDriver.getActiveStatus(),
+            position
+        )) {
+            throw new IllegalStateException("Trạng thái tài xế đã thay đổi, hãy thử lại");
+        }
+        return activeDriverRepository.findById(userId).orElseThrow(
+            () -> new IllegalStateException("Không thể tải trạng thái tài xế đã cập nhật")
+        );
     }
 }

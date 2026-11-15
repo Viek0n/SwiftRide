@@ -6,9 +6,9 @@ import com.mircroservice.matching_service.domain.entities.ActiveDriver;
 
 @Service
 public class UserMatchAcceptedUseCase {
-    private final DriverAcceptedUseCase driverAcceptedUseCase;
+    private final DriverMatchAcceptedUseCase driverAcceptedUseCase;
 
-    public UserMatchAcceptedUseCase(DriverAcceptedUseCase driverAcceptedUseCase) {
+    public UserMatchAcceptedUseCase(DriverMatchAcceptedUseCase driverAcceptedUseCase) {
         this.driverAcceptedUseCase = driverAcceptedUseCase;
     }
 

@@ -5,6 +5,11 @@ import com.mircroservice.matching_service.domain.value_objects.Position;
 public record CalculateTripFareRequest(
     Position origin,
     Position destination,
-    boolean surgeApplied,
-    boolean promoApplied
-) {}
+    Boolean surgeApplied,
+    Boolean promoApplied
+) {
+    public CalculateTripFareRequest {
+        surgeApplied = Boolean.TRUE.equals(surgeApplied);
+        promoApplied = Boolean.TRUE.equals(promoApplied);
+    }
+}

@@ -7,10 +7,10 @@ import com.mircroservice.matching_service.domain.enumerators.ActiveStatus;
 import com.mircroservice.matching_service.domain.repositories.ActiveDriverRepository;
 
 @Service
-public class DriverAcceptedUseCase {
+public class DriverMatchAcceptedUseCase {
     private final ActiveDriverRepository activeDriverRepository;
 
-    public DriverAcceptedUseCase(ActiveDriverRepository activeDriverRepository) {
+    public DriverMatchAcceptedUseCase(ActiveDriverRepository activeDriverRepository) {
         this.activeDriverRepository = activeDriverRepository;
     }
 

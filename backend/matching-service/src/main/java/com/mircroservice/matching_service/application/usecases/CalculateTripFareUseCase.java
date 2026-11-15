@@ -51,10 +51,10 @@ public class CalculateTripFareUseCase {
             .multiply(BigDecimal.valueOf(PriceMultiplier.PRICE_PER_MINUTE));
 
         BigDecimal baseFare = distanceFare.add(timeFare);
-        BigDecimal surgeMultiplier = request.surgeApplied()
+        BigDecimal surgeMultiplier = Boolean.TRUE.equals(request.surgeApplied())
             ? surgePricing.multiplier()
             : standardPricing.multiplier();
-        BigDecimal promotionMultiplier = request.promoApplied()
+        BigDecimal promotionMultiplier = Boolean.TRUE.equals(request.promoApplied())
             ? promoPricing.multiplier()
             : standardPricing.multiplier();
         BigDecimal toll = BigDecimal.valueOf(PriceMultiplier.TOLL);

@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import com.mircroservice.matching_service.domain.entities.ActiveDriver;
 
 @Service
-public class UserMatchRejectedUseCase {
+public class UserMatchCancleUseCase {
     private final MatchRejectedUseCase matchRejectedUseCase;
 
-    public UserMatchRejectedUseCase(MatchRejectedUseCase matchRejectedUseCase) {
+    public UserMatchCancleUseCase(MatchRejectedUseCase matchRejectedUseCase) {
         this.matchRejectedUseCase = matchRejectedUseCase;
     }
 

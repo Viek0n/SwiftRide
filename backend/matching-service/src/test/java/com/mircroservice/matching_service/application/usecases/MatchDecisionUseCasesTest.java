@@ -21,7 +21,7 @@ class MatchDecisionUseCasesTest {
         when(repository.findById("driver-1")).thenReturn(Optional.of(driver));
         when(repository.save(driver)).thenReturn(driver);
 
-        ActiveDriver result = new DriverAcceptedUseCase(repository).execute("driver-1");
+        ActiveDriver result = new DriverMatchAcceptedUseCase(repository).execute("driver-1");
 
         assertEquals(ActiveStatus.IN_MATCH, result.getActiveStatus());
     }

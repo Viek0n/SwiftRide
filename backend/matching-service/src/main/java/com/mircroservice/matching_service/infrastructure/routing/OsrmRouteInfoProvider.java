@@ -30,7 +30,9 @@ public class OsrmRouteInfoProvider implements RouteInfoProvider {
 
         String coordinates = origin.longitude() + "," + origin.latitude()
             + ";" + destination.longitude() + "," + destination.latitude();
-        URI uri = URI.create(baseUrl + "/route/v1/driving/" + coordinates + "?overview=false");
+        URI uri = URI.create(
+            baseUrl + "/route/v1/driving/" + coordinates + "?overview=full&geometries=geojson"
+        );
 
         OsrmResponse response = restClient.get()
             .uri(uri)
@@ -43,13 +45,20 @@ public class OsrmRouteInfoProvider implements RouteInfoProvider {
         }
 
         OsrmRoute route = response.routes().get(0);
-        if (route.distance() == null || route.duration() == null) {
-            throw new IllegalStateException("OSRM route is missing distance or duration");
+        if (route.distance() == null || route.duration() == null || route.geometry() == null
+            || route.geometry().coordinates() == null || route.geometry().coordinates().isEmpty()) {
+            throw new IllegalStateException("OSRM route is missing distance, duration, or geometry");
         }
-        return new RouteInfo(route.distance(), route.duration());
+        return new RouteInfo(
+            route.distance(),
+            route.duration(),
+            route.geometry().coordinates()
+        );
     }
 
     private record OsrmResponse(String code, List<OsrmRoute> routes) {}
 
-    private record OsrmRoute(Double distance, Double duration) {}
+    private record OsrmRoute(Double distance, Double duration, OsrmGeometry geometry) {}
+
+    private record OsrmGeometry(String type, List<List<Double>> coordinates) {}
 }
