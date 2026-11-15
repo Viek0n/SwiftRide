@@ -15,7 +15,7 @@ import com.mircroservice.matching_service.domain.dto.requests.UserRegisterReques
 import com.mircroservice.matching_service.domain.dto.responses.UserResponse;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/users")
 public class UserController {
     private final RegisterUserUseCase registerUser;
     private final FindUserByIdUseCase findUserById;

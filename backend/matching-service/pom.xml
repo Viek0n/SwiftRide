@@ -18,6 +18,7 @@
 
     <properties>
         <java.version>21</java.version>
+        <spring-cloud.version>2025.1.4</spring-cloud.version>
     </properties>
 
     <dependencies>
@@ -32,6 +33,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mongodb-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <!-- Request validation -->
@@ -54,11 +61,11 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Eureka Client -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mongodb-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 
          <!-- Security -->
         <dependency>
@@ -68,6 +75,18 @@
         </dependency>
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
     <build>
         <plugins>
             <plugin>
