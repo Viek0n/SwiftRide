@@ -32,8 +32,8 @@ public class User {
         this.updatedAt = Instant.now();
     }
 
-    public void deactivate() {
-        this.accountStatus = AccountStatus.INACTIVE;
+    public void suspense() {
+        this.accountStatus = AccountStatus.SUSPENSED;
         this.updatedAt = Instant.now();
     }
 
