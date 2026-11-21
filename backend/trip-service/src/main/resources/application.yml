@@ -4,7 +4,12 @@ server:
 spring:
   application:
     name: trip-service
-
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
 eureka:
   client:
     register-with-eureka: true

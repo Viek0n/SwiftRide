@@ -1,10 +1,11 @@
 package com.mircroservice.matching_service.domain.repositories;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.mircroservice.matching_service.domain.entities.ActiveDriver;
-import com.mircroservice.matching_service.domain.enumerators.ActiveStatus;
+import com.mircroservice.matching_service.domain.enumerators.ActiveStage;
 import com.mircroservice.matching_service.domain.value_objects.Position;
 
 public interface ActiveDriverRepository {
@@ -12,17 +13,30 @@ public interface ActiveDriverRepository {
 
     Optional<ActiveDriver> findById(String id);
 
-    List<ActiveDriver> findByActiveStatus(ActiveStatus activeStatus);
+    List<ActiveDriver> findByActiveStatus(ActiveStage activeStatus);
 
-    boolean transitionStatus(String userId, ActiveStatus currentStatus, ActiveStatus nextStatus);
+    boolean updatePosition(String userId, Position position);
 
-    boolean updatePositionIfStatus(
-        String userId,
-        ActiveStatus currentStatus,
-        Position position
-    );
+    boolean updateStatus(String userId, ActiveStage stage);
 
     boolean existsById(String id);
 
     void deleteById(String id);
+
+    //Get only 1 nearest driver
+    Optional<ActiveDriver> findNearestAvailableDriver(
+        Position riderPosition, 
+        ArrayList<String> excludeDriverIds
+    );
+    
+    //Try reserve driver 
+    Boolean tryReserveDriver(
+        String driverId, 
+        String tripId
+    );
+
+    boolean releaseDriverIfReservedForTrip(
+        String driverId,
+        String tripId
+    );
 }

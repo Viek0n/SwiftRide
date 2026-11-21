@@ -21,7 +21,7 @@ import com.mircroservice.trip_service.infrastructure.services.TripService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/trips")
+@RequestMapping("trips")
 public class TripController {
     private final TripService tripService;
 
@@ -32,7 +32,7 @@ public class TripController {
     @PostMapping
     public ResponseEntity<Trip> createTrip(@Valid @RequestBody TripCreateRequest request) {
         var trip = tripService.createTrip(request);
-        return ResponseEntity.created(URI.create("/api/trips/" + trip.getId())).body(trip);
+        return ResponseEntity.created(URI.create("trips/" + trip.getId())).body(trip);
     }
 
     @GetMapping("/{tripId}")
@@ -50,7 +50,7 @@ public class TripController {
         return tripService.confirmTrip(tripId);
     }
 
-    @PatchMapping("/{tripId}/accept")
+    @PatchMapping("/{tripId}/driver-accept")
     public Trip acceptTrip(
         @PathVariable String tripId,
         @Valid @RequestBody DriverAssignmentRequest request
@@ -66,7 +66,7 @@ public class TripController {
         return tripService.rejectDriver(tripId, request.driverId());
     }
 
-    @PatchMapping("/{tripId}/complete")
+    @PatchMapping("/{tripId}/dropoff")
     public Trip completeTrip(
         @PathVariable String tripId,
         @Valid @RequestBody DriverAssignmentRequest request

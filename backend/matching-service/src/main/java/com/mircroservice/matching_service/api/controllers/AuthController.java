@@ -8,35 +8,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mircroservice.matching_service.api.routes.AuthRoute;
-import com.mircroservice.matching_service.application.usecases.LoginDriverUseCase;
-import com.mircroservice.matching_service.application.usecases.LoginUserUseCase;
-import com.mircroservice.matching_service.application.usecases.RegisterDriverUseCase;
-import com.mircroservice.matching_service.application.usecases.RegisterUserUseCase;
+import com.mircroservice.matching_service.application.usecases.user.LoginDriverUseCase;
+import com.mircroservice.matching_service.application.usecases.user.LoginUserUseCase;
+import com.mircroservice.matching_service.application.usecases.user.RegisterDriverUseCase;
+import com.mircroservice.matching_service.application.usecases.user.RegisterUserUseCase;
 import com.mircroservice.matching_service.domain.dto.requests.DriverRegisterRequest;
 import com.mircroservice.matching_service.domain.dto.requests.LoginRequest;
 import com.mircroservice.matching_service.domain.dto.requests.UserRegisterRequest;
 import com.mircroservice.matching_service.domain.dto.responses.DriverProfileResponse;
 import com.mircroservice.matching_service.domain.dto.responses.UserResponse;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping(AuthRoute.BASE)
+@AllArgsConstructor 
 public class AuthController {
     private final RegisterUserUseCase registerUser;
     private final RegisterDriverUseCase registerDriver;
     private final LoginUserUseCase loginUser;
     private final LoginDriverUseCase loginDriver;
-
-    public AuthController(
-        RegisterUserUseCase registerUser,
-        RegisterDriverUseCase registerDriver,
-        LoginUserUseCase loginUser,
-        LoginDriverUseCase loginDriver
-    ) {
-        this.registerUser = registerUser;
-        this.registerDriver = registerDriver;
-        this.loginUser = loginUser;
-        this.loginDriver = loginDriver;
-    }
 
     @PostMapping(AuthRoute.REGISTER_USER)
     public ResponseEntity<UserResponse> registerUser(

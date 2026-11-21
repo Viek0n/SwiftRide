@@ -12,46 +12,46 @@ spring:
         webflux:
           routes:
 
-            # Matching endpoints are exposed under /api/matching and served under /match.
+            # Matching endpoints are exposed under /matching and served under /match.
             - id: matching-service
               uri: lb://matching-service
               predicates:
-                - Path=/api/matching
+                - Path=/matching
               filters:
                 - SetPath=/match
 
             - id: matching-service-api
               uri: lb://matching-service
               predicates:
-                - Path=/api/matching/**
+                - Path=/matching/**
               filters:
-                - RewritePath=/api/matching/(?<segment>.*), /match/$\{segment}
+                - RewritePath=/matching/(?<segment>.*), /match/$\{segment}
 
             - id: matching-auth
               uri: lb://matching-service
               predicates:
-                - Path=/api/auth/**
+                - Path=/auth/**
               filters:
                 - StripPrefix=1
 
             - id: matching-users
               uri: lb://matching-service
               predicates:
-                - Path=/api/users/**
+                - Path=/users/**
               filters:
                 - StripPrefix=1
 
             - id: matching-drivers
               uri: lb://matching-service
               predicates:
-                - Path=/api/drivers/**
+                - Path=/drivers/**
               filters:
                 - StripPrefix=1
 
             - id: matching-active-drivers
               uri: lb://matching-service
               predicates:
-                - Path=/api/active-drivers/**
+                - Path=/active-drivers/**
               filters:
                 - StripPrefix=1
 
@@ -59,13 +59,13 @@ spring:
             - id: trip-service
               uri: lb://trip-service
               predicates:
-                - Path=/api/trips/**
+                - Path=/trips/**
 
             # Payment Service
             - id: payment-service
               uri: lb://payment-service
               predicates:
-                - Path=/api/payments/**
+                - Path=/payments/**
               filters:
                 - StripPrefix=1
 

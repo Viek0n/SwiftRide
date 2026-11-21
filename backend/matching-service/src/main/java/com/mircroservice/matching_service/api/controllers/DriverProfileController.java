@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mircroservice.matching_service.api.routes.DriverProfileRoute;
-import com.mircroservice.matching_service.application.usecases.DeleteDriverProfile;
-import com.mircroservice.matching_service.application.usecases.FindDriverByIdUseCase;
-import com.mircroservice.matching_service.application.usecases.GetDriversListUseCase;
-import com.mircroservice.matching_service.application.usecases.SoftDeleteDriverProfileUsecase;
-import com.mircroservice.matching_service.application.usecases.UpdateDriverProfile;
+import com.mircroservice.matching_service.application.usecases.user.DeleteDriverProfile;
+import com.mircroservice.matching_service.application.usecases.user.FindDriverByIdUseCase;
+import com.mircroservice.matching_service.application.usecases.user.GetDriversListUseCase;
+import com.mircroservice.matching_service.application.usecases.user.SoftDeleteDriverProfileUsecase;
+import com.mircroservice.matching_service.application.usecases.user.UpdateDriverProfile;
 import com.mircroservice.matching_service.domain.dto.requests.DriverProfileUpdateRequest;
 import com.mircroservice.matching_service.domain.dto.responses.DriverProfileResponse;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor 
 @RestController 
 @RequestMapping(DriverProfileRoute.BASE)
 public class DriverProfileController {
@@ -29,20 +32,6 @@ public class DriverProfileController {
     private final UpdateDriverProfile updateDriverProfile;
     private final DeleteDriverProfile deleteDriverProfile;
     private final SoftDeleteDriverProfileUsecase softDeleteDriverProfile;
-
-    public DriverProfileController(
-        GetDriversListUseCase getDriversList,
-        FindDriverByIdUseCase findDriverById,
-        UpdateDriverProfile updateDriverProfile,
-        DeleteDriverProfile deleteDriverProfile,
-        SoftDeleteDriverProfileUsecase softDeleteDriverProfile
-    ) {
-        this.getDriversList = getDriversList;
-        this.findDriverById = findDriverById;
-        this.updateDriverProfile = updateDriverProfile;
-        this.deleteDriverProfile = deleteDriverProfile;
-        this.softDeleteDriverProfile = softDeleteDriverProfile;
-    }
 
     @GetMapping(DriverProfileRoute.LIST)
     public ResponseEntity<List<DriverProfileResponse>> list() {

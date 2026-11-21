@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.mircroservice.matching_service.domain.enumerators.ActiveStatus;
+import com.mircroservice.matching_service.domain.enumerators.ActiveStage;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +18,6 @@ public class ActiveDriverDocument {
     @Id
     private String userId;
 
-    private ActiveStatus activeStatus;
+    private ActiveStage activeStage;
     private GeoJsonPoint activePosition;
 }

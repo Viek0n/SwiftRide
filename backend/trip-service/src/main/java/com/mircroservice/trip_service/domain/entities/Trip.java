@@ -58,6 +58,11 @@ public class Trip {
         this.driverId = driverId;
     }
 
+    public void startMatching() {
+        transitionTo(currentState().startMatching());
+        this.driverId = null;
+    }
+
     public void updateMatchingDriver(String driverId) {
         requireMatchingDriver();
         requireDriverId(driverId);
@@ -67,10 +72,13 @@ public class Trip {
     public void assignDriver(String driverId) {
         requireMatchingDriver();
         if (!Objects.equals(this.driverId, driverId)) {
-            throw new IllegalArgumentException("Driver was not asked to match this trip");
+            if (this.driverId != null) {
+                throw new IllegalArgumentException("Driver was not asked to match this trip");
+            }
         }
         var nextState = currentState().assignDriver(driverId);
         transitionTo(nextState);
+        this.driverId = driverId;
     }
 
     public void complete(String driverId) {

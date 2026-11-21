@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mircroservice.matching_service.api.routes.UserRoute;
-import com.mircroservice.matching_service.application.usecases.DeleteUserUseCase;
-import com.mircroservice.matching_service.application.usecases.FindUserByIdUseCase;
-import com.mircroservice.matching_service.application.usecases.GetUsersListUseCase;
-import com.mircroservice.matching_service.application.usecases.SoftDeleteUserUseCase;
-import com.mircroservice.matching_service.application.usecases.UpdateUserUsecase;
+import com.mircroservice.matching_service.application.usecases.user.DeleteUserUseCase;
+import com.mircroservice.matching_service.application.usecases.user.FindUserByIdUseCase;
+import com.mircroservice.matching_service.application.usecases.user.GetUsersListUseCase;
+import com.mircroservice.matching_service.application.usecases.user.SoftDeleteUserUseCase;
+import com.mircroservice.matching_service.application.usecases.user.UpdateUserUsecase;
 import com.mircroservice.matching_service.domain.dto.requests.UserUpdateRequest;
 import com.mircroservice.matching_service.domain.dto.responses.UserResponse;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor 
 @RestController
 @RequestMapping(UserRoute.BASE)
 public class UserController {
@@ -29,20 +32,6 @@ public class UserController {
     private final UpdateUserUsecase updateUser;
     private final DeleteUserUseCase deleteUser;
     private final SoftDeleteUserUseCase softDeleteUser;
-
-    public UserController(
-        FindUserByIdUseCase findUserById,
-        GetUsersListUseCase getUsersList,
-        UpdateUserUsecase updateUser,
-        DeleteUserUseCase deleteUser,
-        SoftDeleteUserUseCase softDeleteUser
-    ) {
-        this.findUserById = findUserById;
-        this.getUsersList = getUsersList;
-        this.updateUser = updateUser;
-        this.deleteUser = deleteUser;
-        this.softDeleteUser = softDeleteUser;
-    }
 
     @GetMapping(UserRoute.LIST)
     public ResponseEntity<List<UserResponse>> list() {

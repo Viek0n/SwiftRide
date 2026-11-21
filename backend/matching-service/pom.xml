@@ -22,6 +22,11 @@
     </properties>
 
     <dependencies>
+        <!--Rabbit MQ-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
 
         <!-- REST API -->
         <dependency>
