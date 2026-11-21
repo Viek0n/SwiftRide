@@ -1,7 +1,7 @@
 package com.mircroservice.matching_service.api.routes;
 
 public class UserRoute {
-    public static final String BASE = "users";
+    public static final String BASE = "api/users";
     
     public static final String CREATE = "";
     public static final String UPDATE = "/{id}";

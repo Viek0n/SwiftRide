@@ -1,7 +1,7 @@
 package com.mircroservice.matching_service.api.routes;
 
 public class DriverProfileRoute {
-    public static final String BASE = "drivers";
+    public static final String BASE = "api/drivers";
 
     public static final String CREATE = "";
     public static final String UPDATE = "/{userId}";

@@ -1,7 +1,7 @@
 package com.mircroservice.matching_service.api.routes;
 
 public class AuthRoute {
-    public static final String BASE = "auth";
+    public static final String BASE = "api/auth";
 
     public static final String LOGIN = "/login";
     public static final String LOGIN_USER = LOGIN + "/user";

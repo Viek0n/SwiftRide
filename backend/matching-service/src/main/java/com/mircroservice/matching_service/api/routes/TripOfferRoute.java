@@ -1,7 +1,7 @@
 package com.mircroservice.matching_service.api.routes;
 
 public class TripOfferRoute {
-    public static final String BASE = "drivers-offer";
+    public static final String BASE = "api/drivers-offer";
 
     public static final String ACCEPT = "/accept";
     public static final String REJECT = "/reject";

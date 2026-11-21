@@ -1,7 +1,7 @@
-package com.mircroservice.trip_service.api.routes;
+package com.mircroservice.trip_service.api;
 
 public class TripRoute {
-    public static final String BASE = "trips";
+    public static final String BASE = "api/trips";
 
     public static final String CREATE = "";
     public static final String GET = "/{id}";
