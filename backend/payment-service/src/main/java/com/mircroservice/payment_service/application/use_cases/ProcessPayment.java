@@ -3,8 +3,8 @@ package com.mircroservice.payment_service.application.use_cases;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+import org.bson.types.ObjectId;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
@@ -59,7 +59,7 @@ public class ProcessPayment {
 
         Instant now = Instant.now();
         Bill bill = new Bill();
-        bill.setId(UUID.randomUUID().toString());
+        bill.setId(new ObjectId().toHexString());
         bill.setTripId(event.tripId());
         bill.setRiderId(event.riderId());
         bill.setPricingQuoteId(event.quoteId());
@@ -111,7 +111,7 @@ public class ProcessPayment {
 
         Instant now = Instant.now();
         PaymentAttempt attempt = new PaymentAttempt();
-        attempt.setId(UUID.randomUUID().toString());
+        attempt.setId(new ObjectId().toHexString());
         attempt.setIdempotencyKey(idempotencyKey);
         attempt.setStatus(PaymentAttemptStatus.PENDING);
         attempt.setCreatedAt(now);
@@ -300,7 +300,7 @@ public class ProcessPayment {
         List<LedgerEntry> entries = List.of(
                 new LedgerEntry("PAYMENT_GATEWAY_CLEARING", LedgerEntry.Direction.DEBIT, bill.getAmount()),
                 new LedgerEntry(proceedsAccount, LedgerEntry.Direction.CREDIT, bill.getAmount()));
-        LedgerTransaction journal = new LedgerTransaction(UUID.randomUUID().toString(), type, reference, entries, now);
+        LedgerTransaction journal = new LedgerTransaction(new ObjectId().toHexString(), type, reference, entries, now);
         bill.getLedgerTransactions().add(journal);
     }
 
@@ -309,7 +309,7 @@ public class ProcessPayment {
             bill.setOutboxEvents(new ArrayList<>());
         }
         bill.getOutboxEvents().add(new PaymentOutboxEvent(
-                UUID.randomUUID().toString(),
+                new ObjectId().toHexString(),
                 "PaymentSettled",
                 bill.getTripId(),
                 bill.getRiderId(),

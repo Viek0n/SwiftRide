@@ -1,18 +1,31 @@
 server:
-  port: 8083
+  port: ${SERVER_PORT:8083}
 
 spring:
   application:
     name: trip-service
+
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
-    virtual-host: /
+
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+  
+  mongodb:
+    uri: ${MONGODB_URI}
+    database: ${MONGODB_DATABASE}
+
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+  instance:
+    prefer-ip-address: true

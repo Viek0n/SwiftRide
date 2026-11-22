@@ -52,6 +52,11 @@ public class Trip {
         this.createdAt = createdAt;
     }
 
+    public void restoreState(TripStatus status, String driverId) {
+        this.status = Objects.requireNonNull(status);
+        this.driverId = driverId;
+    }
+
     public void startMatching(String driverId) {
         requireDriverId(driverId);
         transitionTo(currentState().startMatching());

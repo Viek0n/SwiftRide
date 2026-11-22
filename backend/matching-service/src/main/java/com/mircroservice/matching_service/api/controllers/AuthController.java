@@ -36,7 +36,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(registerUser.execute(request));
     }
 
-    @PostMapping(AuthRoute.REGISTER_RIDER)
+    @PostMapping(AuthRoute.REGISTER_DRIDER)
     public ResponseEntity<DriverProfileResponse> registerRider(
         @RequestBody DriverRegisterRequest request
     ) {

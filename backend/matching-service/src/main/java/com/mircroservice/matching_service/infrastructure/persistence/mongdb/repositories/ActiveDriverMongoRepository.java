@@ -45,8 +45,8 @@ public class ActiveDriverMongoRepository implements ActiveDriverRepository {
     }
 
     @Override
-    public List<ActiveDriver> findByActiveStatus(ActiveStage activeStatus) {
-        return mongoRepository.findByActiveStatus(activeStatus).stream()
+    public List<ActiveDriver> findByActiveStage(ActiveStage activeStage) {
+        return mongoRepository.findByActiveStage(activeStage).stream()
             .map(mapper::toDomain)
             .collect(Collectors.toList());
     }

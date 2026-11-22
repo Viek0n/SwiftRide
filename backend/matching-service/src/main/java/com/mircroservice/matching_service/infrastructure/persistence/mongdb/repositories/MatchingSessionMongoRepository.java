@@ -4,9 +4,12 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.mircroservice.matching_service.domain.entities.MatchingSession;
 import com.mircroservice.matching_service.domain.repositories.MatchingSessionRepository;
 
+@Repository 
 public class MatchingSessionMongoRepository implements MatchingSessionRepository{
 
     @Override

@@ -18,7 +18,7 @@ import java.time.Instant;
 public class UserDocument {
 
     @Id
-    private String id;
+    private String userId;
     private String name;
     private String phone;
     private String password;

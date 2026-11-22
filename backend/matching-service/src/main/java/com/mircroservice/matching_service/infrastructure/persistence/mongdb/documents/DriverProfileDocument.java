@@ -4,6 +4,8 @@ import java.time.Instant;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import com.mircroservice.matching_service.domain.enumerators.AccountStatus;
 
@@ -16,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor 
 @Document (collection = "driver_profiles")
 public class DriverProfileDocument {
-    @Id
+    @Field(targetType = FieldType.OBJECT_ID)
     private String userId;
 
     private String  driverLicense;

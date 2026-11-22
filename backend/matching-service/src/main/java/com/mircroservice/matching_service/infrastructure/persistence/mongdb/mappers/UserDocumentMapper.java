@@ -10,7 +10,7 @@ public class UserDocumentMapper {
     public UserDocument toDocument(User user) {
         UserDocument document = new UserDocument();
 
-        document.setId(user.getId());
+        document.setUserId(user.getId());
         document.setName(user.getName());
         document.setPhone(user.getPhone());
         document.setPassword(user.getPassword());
@@ -23,7 +23,7 @@ public class UserDocumentMapper {
 
     public User toDomain(UserDocument document) {
         return new User(
-            document.getId(), 
+            document.getUserId(), 
             document.getName(), 
             document.getPhone(), 
             document.getPassword(), 

@@ -22,6 +22,13 @@
     </properties>
 
     <dependencies>
+        <!--To read .env-->
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>springboot4-dotenv</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+
         <!--Rabbit MQ-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

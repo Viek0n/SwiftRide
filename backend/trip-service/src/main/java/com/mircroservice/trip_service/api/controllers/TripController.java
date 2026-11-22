@@ -21,7 +21,7 @@ import com.mircroservice.trip_service.infrastructure.services.TripService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("trips")
+@RequestMapping("api/trips")
 public class TripController {
     private final TripService tripService;
 

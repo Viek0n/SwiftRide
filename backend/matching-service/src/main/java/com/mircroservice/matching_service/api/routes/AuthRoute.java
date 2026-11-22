@@ -12,7 +12,7 @@ public class AuthRoute {
     
     public static final String REGISTER = "/register";
     public static final String REGISTER_USER = REGISTER + "/user";
-    public static final String REGISTER_RIDER = REGISTER + "/rider";
+    public static final String REGISTER_DRIDER = REGISTER + "/driver";
 
     private AuthRoute(){
 

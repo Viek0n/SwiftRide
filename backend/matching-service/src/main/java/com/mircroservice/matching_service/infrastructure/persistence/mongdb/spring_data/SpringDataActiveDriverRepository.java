@@ -11,10 +11,10 @@ import com.mircroservice.matching_service.domain.enumerators.ActiveStage;
 import com.mircroservice.matching_service.infrastructure.persistence.mongdb.documents.ActiveDriverDocument;
 
 public interface SpringDataActiveDriverRepository extends MongoRepository<ActiveDriverDocument, String>{
-    List<ActiveDriverDocument> findByActiveStatus(ActiveStage activeStatus);
+    List<ActiveDriverDocument> findByActiveStage(ActiveStage activeStage);
 
     @Query("{ '_id': ?0 }")
-    @Update("{ '$set': { 'activeStatus': ?1 } }")
+    @Update("{ '$set': { 'activeStage': ?1 } }")
     long updateStatus(String userId, ActiveStage status);
 
     @Query("{ '_id': ?0 }")

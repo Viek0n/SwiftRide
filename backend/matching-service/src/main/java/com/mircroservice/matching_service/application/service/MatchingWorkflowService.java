@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.stereotype.Service;
 
 import com.mircroservice.matching_service.domain.constants.MatchingConstant;
 import com.mircroservice.matching_service.domain.dto.requests.TripOfferRequest;
@@ -14,6 +15,7 @@ import com.mircroservice.matching_service.domain.repositories.ActiveDriverReposi
 import com.mircroservice.matching_service.domain.repositories.MatchingSessionRepository;
 import com.mircroservice.matching_service.domain.repositories.TripOfferRepository;
 
+@Service 
 public class MatchingWorkflowService {
     private final ActiveDriverRepository activeDriverRepository;
     private final MatchingSessionRepository sessionRepository;
