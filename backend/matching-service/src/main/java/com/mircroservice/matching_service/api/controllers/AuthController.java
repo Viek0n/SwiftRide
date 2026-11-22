@@ -16,6 +16,7 @@ import com.mircroservice.matching_service.domain.dto.requests.DriverRegisterRequ
 import com.mircroservice.matching_service.domain.dto.requests.LoginRequest;
 import com.mircroservice.matching_service.domain.dto.requests.UserRegisterRequest;
 import com.mircroservice.matching_service.domain.dto.responses.DriverProfileResponse;
+import com.mircroservice.matching_service.domain.dto.responses.UserLoginResponse;
 import com.mircroservice.matching_service.domain.dto.responses.UserResponse;
 
 import lombok.AllArgsConstructor;
@@ -44,7 +45,7 @@ public class AuthController {
     }
 
     @PostMapping(AuthRoute.LOGIN_USER)
-    public ResponseEntity<UserResponse> loginUser(@RequestBody LoginRequest request) {
+    public ResponseEntity<UserLoginResponse> loginUser(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(loginUser.execute(request));
     }
 

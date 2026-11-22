@@ -17,6 +17,11 @@ spring:
     uri: ${MONGODB_URI}
     database: ${MONGODB_DATABASE}
 
+jwt:
+  # Set JWT_SECRET_BASE64 to the Base64 encoding of a random key with at least 32 bytes.
+  secret-base64: ${JWT_SECRET_BASE64}
+  expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}
+
 eureka:
   client:
     register-with-eureka: true
