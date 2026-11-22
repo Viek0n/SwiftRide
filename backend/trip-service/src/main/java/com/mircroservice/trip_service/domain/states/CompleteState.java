@@ -7,4 +7,9 @@ public class CompleteState implements TripState {
     public TripStatus getStatus() {
         return TripStatus.COMPLETE;
     }
+
+    @Override 
+    public TripState paid(){
+        return new PaidState();
+    }
 }
