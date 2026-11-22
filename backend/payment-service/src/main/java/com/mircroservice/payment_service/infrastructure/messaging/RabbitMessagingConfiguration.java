@@ -15,9 +15,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @ConditionalOnProperty(name = "swift-ride.messaging.rabbitmq.enabled", havingValue = "true")
 public class RabbitMessagingConfiguration {
-    public static final String EVENTS_EXCHANGE = "swiftride.events";
+    public static final String EVENTS_EXCHANGE = "trip.exchange";
     public static final String DEAD_LETTER_EXCHANGE = "swiftride.events.dlx";
-    public static final String RIDE_COMPLETED_ROUTING_KEY = "trip.ride-completed";
+    public static final String RIDE_COMPLETED_ROUTING_KEY = "trip.completed";
     public static final String RIDE_COMPLETED_FAILED_ROUTING_KEY = "trip.ride-completed.failed";
     public static final String PAYMENT_SETTLED_ROUTING_KEY = "payment.settled";
 

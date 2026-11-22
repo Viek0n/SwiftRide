@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.mircroservice.matching_service.domain.constants.MatchingConstant;
@@ -93,7 +94,7 @@ public class ActiveDriverMongoRepository implements ActiveDriverRepository {
         Query query = new Query();
 
         query.addCriteria(
-            Criteria.where("status").is("ONLINE")
+            Criteria.where("activeStage").is(ActiveStage.ONLINE)
         );
 
         if (excludedDriverIds != null && !excludedDriverIds.isEmpty()) {
@@ -121,13 +122,19 @@ public class ActiveDriverMongoRepository implements ActiveDriverRepository {
      
     @Override 
     public Boolean tryReserveDriver(String driverId, String tripId){
-
-        return true;
+        Query query = new Query(Criteria.where("_id").is(driverId)
+                .and("activeStage").is(ActiveStage.ONLINE));
+        Update update = new Update()
+                .set("activeStage", ActiveStage.MATCH_FOUND);
+        return mongoTemplate.updateFirst(query, update, ActiveDriverDocument.class).getModifiedCount() > 0;
     }
 
     @Override
     public boolean releaseDriverIfReservedForTrip(String driverId, String tripId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'releaseDriverIfReservedForTrip'");
+        Query query = new Query(Criteria.where("_id").is(driverId)
+                .and("activeStage").is(ActiveStage.MATCH_FOUND));
+        Update update = new Update()
+                .set("activeStage", ActiveStage.ONLINE);
+        return mongoTemplate.updateFirst(query, update, ActiveDriverDocument.class).getModifiedCount() > 0;
     }
 }

@@ -16,6 +16,8 @@ import com.mircroservice.matching_service.domain.dto.requests.CalculateTripFareR
 import com.mircroservice.matching_service.domain.dto.requests.RouteRequest;
 import com.mircroservice.matching_service.domain.dto.responses.RouteResponse;
 import com.mircroservice.matching_service.domain.entities.PricingQuote;
+import com.mircroservice.matching_service.application.usecases.matching.MatchingRiderWithDriver;
+import com.mircroservice.matching_service.domain.dto.requests.MatchRequest;
 
 import lombok.AllArgsConstructor;
 
@@ -25,6 +27,7 @@ import lombok.AllArgsConstructor;
 public class MatchingController {
     private final GetRouteUseCase getRoute;
     private CalculateTripFareUseCase calculateTripFare;
+    private MatchingRiderWithDriver matchingRiderWithDriver;
 
     @PostMapping(MatchingRoute.ROUTE)
     public ResponseEntity<RouteResponse> route(@RequestBody RouteRequest request) {
@@ -41,5 +44,14 @@ public class MatchingController {
     @PostMapping(MatchingRoute.QUOTE)
     public ResponseEntity<PricingQuote> fare(@RequestBody CalculateTripFareRequest request) {
         return ResponseEntity.ok(calculateTripFare.execute(request));
+    }
+
+    @PostMapping("/match")
+    public ResponseEntity<Void> match(@RequestBody MatchRequest request) {
+        if (matchingRiderWithDriver == null) {
+            return ResponseEntity.noContent().build();
+        }
+        matchingRiderWithDriver.execute(request.origin(), request.tripId());
+        return ResponseEntity.accepted().build();
     }
 }

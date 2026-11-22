@@ -50,6 +50,28 @@ public class TripController {
         return tripService.confirmTrip(tripId);
     }
 
+    @PostMapping("/{tripId}/reject")
+    public ResponseEntity<Void> rejectTrip(@PathVariable String tripId) {
+        tripService.rejectTrip(tripId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{tripId}/pickedup")
+    public Trip pickedUp(
+        @PathVariable String tripId,
+        @Valid @RequestBody DriverAssignmentRequest request
+    ) {
+        return tripService.pickedUp(tripId, request.driverId());
+    }
+
+    @PostMapping("/{tripId}/complete")
+    public Trip complete(
+        @PathVariable String tripId,
+        @Valid @RequestBody DriverAssignmentRequest request
+    ) {
+        return tripService.completeTrip(tripId, request.driverId());
+    }
+
     @PatchMapping("/{tripId}/driver-accept")
     public Trip acceptTrip(
         @PathVariable String tripId,

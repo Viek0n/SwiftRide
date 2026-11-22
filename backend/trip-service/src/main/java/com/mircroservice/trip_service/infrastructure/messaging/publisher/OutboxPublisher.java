@@ -120,6 +120,7 @@ public class OutboxPublisher {
 
         return switch (eventType) {
             case "TripConfirmed" -> "trip.confirmed";
+            case "TripCompleted" -> "trip.completed";
             default -> throw new IllegalArgumentException(
                     "Unknown event type: " + eventType
             );

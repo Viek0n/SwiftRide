@@ -9,6 +9,7 @@ import com.mircroservice.matching_service.infrastructure.persistence.mongdb.docu
 public class TripOfferDocumentMapper {
     public TripOfferDocument toDocument(TripOffer offer) {
         TripOfferDocument document = new TripOfferDocument();
+        document.setId(offer.getId());
         document.setTripId(offer.getTripId());
         document.setDriverId(offer.getDriverId());
         document.setStatus(offer.getStatus());

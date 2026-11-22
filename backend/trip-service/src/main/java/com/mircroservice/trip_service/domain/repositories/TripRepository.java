@@ -9,4 +9,5 @@ public interface TripRepository {
     Trip save(Trip trip);
     Optional<Trip> findById(String id);
     List<Trip> findByRiderId(String riderId);
+    void deleteById(String id);
 }

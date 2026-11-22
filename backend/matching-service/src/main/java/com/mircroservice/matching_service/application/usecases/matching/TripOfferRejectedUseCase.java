@@ -10,8 +10,10 @@ import com.mircroservice.matching_service.domain.repositories.MatchingSessionRep
 import com.mircroservice.matching_service.domain.repositories.TripOfferRepository;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @AllArgsConstructor 
+@Service
 public class TripOfferRejectedUseCase {
     private final TripOfferRepository offerRepository;
     private final MatchingSessionRepository sessionRepository;

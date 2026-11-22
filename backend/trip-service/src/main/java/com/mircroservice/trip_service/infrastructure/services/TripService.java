@@ -71,11 +71,29 @@ public class TripService {
         return tripRepository.findByRiderId(riderId);
     }
 
+    public void rejectTrip(String tripId) {
+        Trip trip = getTrip(tripId);
+        String riderId = AuthenticatedUser.getUserId();
+        if (!riderId.equals(trip.getRiderId())) {
+            throw new IllegalArgumentException("Rider does not own this trip");
+        }
+        if (trip.getStatus() != TripStatus.REQUESTED) {
+            throw new IllegalStateException("Trip is no longer requested");
+        }
+        tripRepository.deleteById(tripId);
+    }
+
     public Trip assignDriver(String tripId, String driverId) {
         var trip = getTrip(tripId);
         trip.requireMatchingDriver(driverId);
         matchingService.accept(tripId, driverId);
         matchingService.confirm(tripId, driverId);
+        trip.assignDriver(driverId);
+        return tripRepository.save(trip);
+    }
+
+    public Trip assignAcceptedDriver(String tripId, String driverId) {
+        Trip trip = getTrip(tripId);
         trip.assignDriver(driverId);
         return tripRepository.save(trip);
     }
@@ -100,6 +118,8 @@ public class TripService {
             "eventId", UUID.randomUUID().toString(),
             "tripId", savedTrip.getId(),
             "riderId", savedTrip.getRiderId(),
+            "from", savedTrip.getFrom(),
+            "to", savedTrip.getTo(),
             "occurredAt", Instant.now().toString()
     );
 
@@ -141,6 +161,34 @@ public class TripService {
     public Trip completeTrip(String tripId, String driverId) {
         var trip = getTrip(tripId);
         trip.complete(driverId);
+        Trip savedTrip = tripRepository.save(trip);
+
+        Map<String, Object> payload = Map.of(
+                "eventId", UUID.randomUUID().toString(),
+                "tripId", savedTrip.getId(),
+                "riderId", savedTrip.getRiderId(),
+                "driverId", savedTrip.getDriverId(),
+                "amount", savedTrip.getPrice().longValue(),
+                "currency", "VND",
+                "quoteId", "",
+                "occurredAt", Instant.now().toString()
+        );
+        outboxRepository.save(OutboxDocument.builder()
+                .id(UUID.randomUUID().toString())
+                .aggregateType("Trip")
+                .aggregateId(savedTrip.getId())
+                .eventType("TripCompleted")
+                .payload(payload)
+                .status("PENDING")
+                .createdAt(Instant.now())
+                .retryCount(0)
+                .build());
+        return savedTrip;
+    }
+
+    public Trip pickedUp(String tripId, String driverId) {
+        Trip trip = getTrip(tripId);
+        trip.pickedUp(driverId);
         return tripRepository.save(trip);
     }
 

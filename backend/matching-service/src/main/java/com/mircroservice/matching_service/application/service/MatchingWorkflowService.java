@@ -2,6 +2,9 @@ package com.mircroservice.matching_service.application.service;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Map;
+import java.util.UUID;
+import java.time.Instant;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
@@ -100,5 +103,13 @@ public class MatchingWorkflowService {
     private void failMatching(MatchingSession session) {
         session.fail();
         sessionRepository.save(session);
+        rabbitTemplate.convertAndSend(
+                "matching.exchange",
+                "matching.failed",
+                Map.of(
+                        "eventId", UUID.randomUUID().toString(),
+                        "tripId", session.getTripId(),
+                        "reason", "No available driver or matching limit reached",
+                        "failedAt", Instant.now().toString()));
     }
 }

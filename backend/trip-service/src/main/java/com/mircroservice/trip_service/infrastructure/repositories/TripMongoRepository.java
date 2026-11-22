@@ -42,4 +42,9 @@ public class TripMongoRepository implements TripRepository {
                 .map(mapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public void deleteById(String id) {
+        mongoRepository.deleteById(id);
+    }
 }

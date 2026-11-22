@@ -50,6 +50,7 @@ public class MatchingSession {
         this.excludedDriverIds = new HashSet<>();
         this.status = MatchingStatus.SEARCHING;
         this.createdAt = Instant.now();
+        this.expiresAt = this.createdAt.plus(MatchingConstant.MATCHING_LIVE_DURATION);
     }
 
     public void startWaiting(
@@ -59,7 +60,6 @@ public class MatchingSession {
         this.attempt++;
         this.currentDriverId = driverId;
         this.currentOfferId = offerId;
-        this.expiresAt = createdAt.plus(MatchingConstant.OFFER_LIVE_DURATION);
         this.status = MatchingStatus.WAITING_FOR_DRIVER;
     }
 

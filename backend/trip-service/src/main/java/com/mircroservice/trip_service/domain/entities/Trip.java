@@ -94,6 +94,14 @@ public class Trip {
         transitionTo(currentState().complete());
     }
 
+    public void pickedUp(String driverId) {
+        if (status != TripStatus.PICKUP) {
+            throw new IllegalStateException("Trip is not waiting for pickup");
+        }
+        requireAssignedDriver(driverId);
+        transitionTo(currentState().pickedUp());
+    }
+
     public void cancel() {
         transitionTo(currentState().cancel());
         this.driverId = null;

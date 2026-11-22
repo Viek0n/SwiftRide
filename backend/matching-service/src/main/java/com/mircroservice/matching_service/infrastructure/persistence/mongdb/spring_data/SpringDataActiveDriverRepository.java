@@ -13,11 +13,11 @@ import com.mircroservice.matching_service.infrastructure.persistence.mongdb.docu
 public interface SpringDataActiveDriverRepository extends MongoRepository<ActiveDriverDocument, String>{
     List<ActiveDriverDocument> findByActiveStage(ActiveStage activeStage);
 
-    @Query("{ '_id': ?0 }")
+    @Query("{ 'userId': ?0 }")
     @Update("{ '$set': { 'activeStage': ?1 } }")
     long updateStatus(String userId, ActiveStage status);
 
-    @Query("{ '_id': ?0 }")
+    @Query("{ 'userId': ?0 }")
     @Update("{ '$set': { 'activePosition': ?1 } }")
     long updatePosition(String userId, GeoJsonPoint position);
 }
