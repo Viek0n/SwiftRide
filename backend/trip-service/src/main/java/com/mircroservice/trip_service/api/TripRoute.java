@@ -10,8 +10,8 @@ public class TripRoute {
     public static final String REJECT = "/{id}/driver-reject";
     public static final String EXPIRE = "/{id}/expire";
     
-    public static final String PICKUP = "/{id}/pickup";
-    public static final String DROPOFF = "/{id}/dropoff";
+    public static final String PICKEDUP = "/{id}/pickedup";
+    public static final String COMPLETE = "/{id}/complete";
 
     public TripRoute(){
         

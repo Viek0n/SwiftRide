@@ -1,7 +1,7 @@
 package com.mircroservice.payment_service.api;
 
 public final class PaymentRoute {
-    public static final String PAYMENTS = "api//payments";
+    public static final String PAYMENTS = "api/payments";
     public static final String CHECKOUT = "/{tripId}/checkout";
     public static final String PAYMENT_BY_TRIP = "/{tripId}";
     public static final String VNPAY_IPN = "/vnpay/ipn";

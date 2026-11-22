@@ -28,7 +28,6 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(AuthRoute.BASE)
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @AllArgsConstructor 
 public class AuthController {
     private final RegisterUserUseCase registerUser;

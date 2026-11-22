@@ -17,11 +17,12 @@ import com.mircroservice.trip_service.application.dto.DriverAssignmentRequest;
 import com.mircroservice.trip_service.application.dto.TripCreateRequest;
 import com.mircroservice.trip_service.domain.entities.Trip;
 import com.mircroservice.trip_service.infrastructure.services.TripService;
+import com.mircroservice.trip_service.api.TripRoute;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("api/trips")
+@RequestMapping(TripRoute.BASE)
 public class TripController {
     private final TripService tripService;
 
@@ -35,7 +36,7 @@ public class TripController {
         return ResponseEntity.created(URI.create("trips/" + trip.getId())).body(trip);
     }
 
-    @GetMapping("/{tripId}")
+    @GetMapping(TripRoute.GET)
     public Trip getTrip(@PathVariable String tripId) {
         return tripService.getTrip(tripId);
     }
@@ -45,18 +46,18 @@ public class TripController {
         return tripService.getTripsForRider(riderId);
     }
 
-    @PatchMapping("/{tripId}/confirm")
+    @PatchMapping(TripRoute.ACCEPT)
     public Trip confirmTrip(@PathVariable String tripId) {
         return tripService.confirmTrip(tripId);
     }
 
-    @PostMapping("/{tripId}/reject")
+    @PostMapping(TripRoute.REJECT)
     public ResponseEntity<Void> rejectTrip(@PathVariable String tripId) {
         tripService.rejectTrip(tripId);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{tripId}/pickedup")
+    @PostMapping(TripRoute.PICKEDUP)
     public Trip pickedUp(
         @PathVariable String tripId,
         @Valid @RequestBody DriverAssignmentRequest request
@@ -64,7 +65,7 @@ public class TripController {
         return tripService.pickedUp(tripId, request.driverId());
     }
 
-    @PostMapping("/{tripId}/complete")
+    @PostMapping(TripRoute.COMPLETE)
     public Trip complete(
         @PathVariable String tripId,
         @Valid @RequestBody DriverAssignmentRequest request

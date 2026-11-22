@@ -1,11 +1,11 @@
 import { useState } from "react";
 import "./auth.css";
 
-const API_BASE_URL = (process.env.REACT_APP_MATCHING_API_URL || "http://localhost:8081").replace(/\/+$/, "");
+const API_GATEWAY_BASE_URL = (process.env.REACT_APP_API_GATEWAY_URL || "http://localhost:8080").replace(/\/+$/, "");
 const SESSION_KEY = "swiftride.driver.session";
 
 async function postAuthRequest(path, body) {
-  const response = await fetch(`${API_BASE_URL}/api/auth${path}`, {
+  const response = await fetch(`${API_GATEWAY_BASE_URL}/auth${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),

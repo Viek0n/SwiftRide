@@ -10,56 +10,109 @@ spring:
     gateway:
       server:
         webflux:
+          globalcors:
+            add-to-simple-url-handler-mapping: true
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - http://localhost:3000
+                  - http://localhost:3001
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - PATCH
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders: "*"
+                maxAge: 1800
           routes:
 
-            # Matching endpoints are exposed under /matching and served under /match.
+            # Driver offers share /api/trips in matching-service, so route them first.
+            - id: matching-driver-offers
+              uri: lb://matching-service
+              predicates:
+                - Path=/matching/trips/**
+              filters:
+                - RewritePath=/matching/trips/(?<segment>.*), /api/trips/$\{segment}
+
             - id: matching-service
               uri: lb://matching-service
               predicates:
                 - Path=/matching
               filters:
-                - SetPath=/match
+                - SetPath=/api/match
 
             - id: matching-service-api
               uri: lb://matching-service
               predicates:
                 - Path=/matching/**
               filters:
-                - RewritePath=/matching/(?<segment>.*), /match/$\{segment}
+                - RewritePath=/matching/(?<segment>.*), /api/match/$\{segment}
 
             - id: matching-auth
               uri: lb://matching-service
               predicates:
                 - Path=/auth/**
               filters:
-                - StripPrefix=1
+                - RewritePath=/auth/(?<segment>.*), /api/auth/$\{segment}
+
+            - id: matching-users-root
+              uri: lb://matching-service
+              predicates:
+                - Path=/users
+              filters:
+                - SetPath=/api/users
 
             - id: matching-users
               uri: lb://matching-service
               predicates:
                 - Path=/users/**
               filters:
-                - StripPrefix=1
+                - RewritePath=/users/(?<segment>.*), /api/users/$\{segment}
+
+            - id: matching-drivers-root
+              uri: lb://matching-service
+              predicates:
+                - Path=/drivers
+              filters:
+                - SetPath=/api/drivers
 
             - id: matching-drivers
               uri: lb://matching-service
               predicates:
                 - Path=/drivers/**
               filters:
-                - StripPrefix=1
+                - RewritePath=/drivers/(?<segment>.*), /api/drivers/$\{segment}
 
             - id: matching-active-drivers
               uri: lb://matching-service
               predicates:
                 - Path=/active-drivers/**
               filters:
-                - StripPrefix=1
+                - RewritePath=/active-drivers/(?<segment>.*), /api/active-drivers/$\{segment}
+
+            - id: matching-quote
+              uri: lb://matching-service
+              predicates:
+                - Path=/quote
+              filters:
+                - SetPath=/api/quote
 
             # Trip Service
+            - id: trip-service-root
+              uri: lb://trip-service
+              predicates:
+                - Path=/trips
+              filters:
+                - SetPath=/api/trips
+
             - id: trip-service
               uri: lb://trip-service
               predicates:
                 - Path=/trips/**
+              filters:
+                - RewritePath=/trips/(?<segment>.*), /api/trips/$\{segment}
 
             # Payment Service
             - id: payment-service
@@ -67,7 +120,7 @@ spring:
               predicates:
                 - Path=/payments/**
               filters:
-                - StripPrefix=1
+                - RewritePath=/payments/(?<segment>.*), /api/payments/$\{segment}
 
 eureka:
   client:
