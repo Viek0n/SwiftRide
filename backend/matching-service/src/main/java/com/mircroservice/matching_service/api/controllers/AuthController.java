@@ -36,7 +36,7 @@ public class AuthController {
     private final LoginUserUseCase loginUser;
     private final LoginDriverUseCase loginDriver;
 
-    @PostMapping(AuthRoute.REGISTER_USER)
+    @PostMapping(AuthRoute.REGISTER_RIDER)
     public ResponseEntity<UserResponse> registerUser(
         @RequestBody UserRegisterRequest request
     ) {
@@ -50,12 +50,12 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(registerDriver.execute(request));
     }
 
-    @PostMapping(AuthRoute.LOGIN_USER)
+    @PostMapping(AuthRoute.LOGIN_RIDER)
     public ResponseEntity<UserLoginResponse> loginUser(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(loginUser.execute(request));
     }
 
-    @PostMapping({AuthRoute.LOGIN_DRIVER, AuthRoute.LOGIN_RIDER})
+    @PostMapping({AuthRoute.LOGIN_DRIVER, AuthRoute.LOGIN_DRIVER})
     public ResponseEntity<DriverLoginResponse> loginDriver(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(loginDriver.execute(request));
     }

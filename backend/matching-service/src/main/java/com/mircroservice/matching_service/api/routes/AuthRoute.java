@@ -4,7 +4,6 @@ public class AuthRoute {
     public static final String BASE = "api/auth";
 
     public static final String LOGIN = "/login";
-    public static final String LOGIN_USER = LOGIN + "/user";
     public static final String LOGIN_DRIVER = LOGIN + "/driver";
     public static final String LOGIN_RIDER = LOGIN + "/rider";
 
@@ -12,7 +11,7 @@ public class AuthRoute {
     public static final String REFRESH_TOKEN = "/refresh";
     
     public static final String REGISTER = "/register";
-    public static final String REGISTER_USER = REGISTER + "/user";
+    public static final String REGISTER_RIDER = REGISTER + "/rider";
     public static final String REGISTER_DRIVER = REGISTER + "/driver";
 
     private AuthRoute(){

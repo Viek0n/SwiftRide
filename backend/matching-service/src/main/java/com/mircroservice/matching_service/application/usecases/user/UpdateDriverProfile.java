@@ -22,7 +22,7 @@ public class UpdateDriverProfile {
             throw new IllegalArgumentException("Thông tin bằng lái và biển số không được để trống");
         }
 
-        DriverProfile driver = driverProfileRepository.findById(userId).orElseThrow(
+        DriverProfile driver = driverProfileRepository.findByUserId(userId).orElseThrow(
             () -> new IllegalArgumentException("Không tìm thấy tài xế"));
         if (driver.getAccountStatus() != AccountStatus.ACTIVE) {
             throw new IllegalStateException("Hồ sơ tài xế không hoạt động");

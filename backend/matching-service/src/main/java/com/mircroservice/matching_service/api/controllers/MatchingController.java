@@ -1,6 +1,5 @@
 package com.mircroservice.matching_service.api.controllers;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mircroservice.matching_service.api.routes.MatchingRoute;
-import com.mircroservice.matching_service.api.routes.QuoteRoute;
 import com.mircroservice.matching_service.application.abstractions.RouteInfoProvider;
 import com.mircroservice.matching_service.application.usecases.matching.CalculateTripFareUseCase;
 import com.mircroservice.matching_service.application.usecases.matching.GetRouteUseCase;

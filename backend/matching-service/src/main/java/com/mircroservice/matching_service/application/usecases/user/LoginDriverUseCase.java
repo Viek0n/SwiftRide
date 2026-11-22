@@ -17,6 +17,8 @@ import com.mircroservice.matching_service.domain.repositories.UserRepository;
 @Service
 public class LoginDriverUseCase {
     private static final String INVALID_CREDENTIALS = "Số điện thoại hoặc mật khẩu không chính xác";
+    private static final String NON_ESXIST_DRIVER = "Tài xế không tồn tại";
+    private static final String DEACTIVE_DRIVER = "Tài khoản vô hiệu";
 
     private final UserRepository userRepository;
     private final DriverProfileRepository driverProfileRepository;
@@ -43,10 +45,10 @@ public class LoginDriverUseCase {
             throw new IllegalArgumentException(INVALID_CREDENTIALS);
         }
 
-        DriverProfile driver = driverProfileRepository.findById(user.getId()).orElseThrow(
-            () -> new IllegalArgumentException(INVALID_CREDENTIALS));
+        DriverProfile driver = driverProfileRepository.findByUserId(user.getId()).orElseThrow(
+            () -> new IllegalArgumentException(NON_ESXIST_DRIVER));
         if (driver.getAccountStatus() != AccountStatus.ACTIVE) {
-            throw new IllegalArgumentException(INVALID_CREDENTIALS);
+            throw new IllegalArgumentException(DEACTIVE_DRIVER);
         }
 
         return new DriverLoginResponse(

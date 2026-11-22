@@ -99,7 +99,7 @@ public class ActiveDriverMongoRepository implements ActiveDriverRepository {
 
         if (excludedDriverIds != null && !excludedDriverIds.isEmpty()) {
             query.addCriteria(
-                Criteria.where("_id").nin(excludedDriverIds)
+                Criteria.where("userId").nin(excludedDriverIds)
             );
         }
 
@@ -122,7 +122,7 @@ public class ActiveDriverMongoRepository implements ActiveDriverRepository {
      
     @Override 
     public Boolean tryReserveDriver(String driverId, String tripId){
-        Query query = new Query(Criteria.where("_id").is(driverId)
+        Query query = new Query(Criteria.where("userId").is(driverId)
                 .and("activeStage").is(ActiveStage.ONLINE));
         Update update = new Update()
                 .set("activeStage", ActiveStage.MATCH_FOUND);
@@ -131,7 +131,7 @@ public class ActiveDriverMongoRepository implements ActiveDriverRepository {
 
     @Override
     public boolean releaseDriverIfReservedForTrip(String driverId, String tripId) {
-        Query query = new Query(Criteria.where("_id").is(driverId)
+        Query query = new Query(Criteria.where("userId").is(driverId)
                 .and("activeStage").is(ActiveStage.MATCH_FOUND));
         Update update = new Update()
                 .set("activeStage", ActiveStage.ONLINE);

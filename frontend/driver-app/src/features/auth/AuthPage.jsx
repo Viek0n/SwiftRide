@@ -43,46 +43,60 @@ export default function AuthPage({ mode, navigate, onSuccess }) {
   }
 
   async function handleSubmit(event) {
-    event.preventDefault();
-    setError("");
-    setIsSubmitting(true);
+      event.preventDefault();
+      setError("");
+      setIsSubmitting(true);
 
-    try {
-      if (isRegister) {
-        let userId = pendingUserId;
-        if (!userId) {
-          const user = await postAuthRequest("/register/user", {
-            name: values.name.trim(),
-            phone: values.phone.trim(),
-            password: values.password,
+      try {
+        if (isRegister) {
+          let userId = pendingUserId;
+
+          if (!userId) {
+            const user = await postAuthRequest("/register/user", {
+              name: values.name.trim(),
+              phone: values.phone.trim(),
+              password: values.password,
+            });
+
+            userId = user.id;
+            setPendingUserId(userId);
+          }
+
+          await postAuthRequest("/register/driver", {
+            userId,
+            driverLicense: values.driverLicense.trim(),
+            licensePlate: values.licensePlate.trim(),
           });
-          userId = user.id;
-          setPendingUserId(userId);
         }
-        await postAuthRequest("/register/driver", {
-          userId,
-          driverLicense: values.driverLicense.trim(),
-          licensePlate: values.licensePlate.trim(),
-        });
-      }
 
-      const result = await postAuthRequest("/login/driver", {
-        phone: values.phone.trim(),
-        password: values.password,
-      });
-      if (!result.accessToken || !result.user) {
-        throw new Error("Dữ liệu đăng nhập từ máy chủ không hợp lệ");
-      }
-      window.sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-        accessToken: result.accessToken,
-        user: result.user,
-        driver: result.driver,
-      }));
-      onSuccess();
+        // Login after registration, or directly login in login mode.
+        const result = await postAuthRequest("/login/driver", {
+          phone: values.phone.trim(),
+          password: values.password,
+        });
+
+        if (!result.accessToken || !result.user) {
+          throw new Error("Invalid login response");
+        }
+
+        window.sessionStorage.setItem(
+          SESSION_KEY,
+          JSON.stringify({
+            accessToken: result.accessToken,
+            user: result.user,
+            driver: result.driver,
+          })
+        );
+
+        onSuccess();
+
     } catch (requestError) {
-      setError(requestError.message || "Không thể kết nối máy chủ. Vui lòng thử lại.");
+        setError(
+            requestError.message ||
+            "Unable to connect to server. Please try again."
+        );
     } finally {
-      setIsSubmitting(false);
+        setIsSubmitting(false);
     }
   }
 

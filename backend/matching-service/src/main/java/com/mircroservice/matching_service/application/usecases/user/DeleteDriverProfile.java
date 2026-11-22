@@ -19,7 +19,7 @@ public class DeleteDriverProfile {
     }
 
     public void execute(String userId) {
-        if (driverProfileRepository.findById(userId).isEmpty()) {
+        if (driverProfileRepository.findByUserId(userId).isEmpty()) {
             throw new IllegalArgumentException("Không tìm thấy tài xế");
         }
 

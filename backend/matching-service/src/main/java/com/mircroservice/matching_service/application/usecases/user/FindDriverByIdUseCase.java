@@ -15,7 +15,7 @@ public class FindDriverByIdUseCase {
     }
 
     public DriverProfileResponse execute(String userId) {
-        DriverProfile driver = driverProfileRepository.findById(userId).orElseThrow(
+        DriverProfile driver = driverProfileRepository.findByUserId(userId).orElseThrow(
             () -> new IllegalArgumentException("Không tìm thấy tài xế"));
         return DriverProfileResponse.toResponse(driver);
     }

@@ -22,7 +22,7 @@ public class DriverStartMatchingUseCase {
     }
 
     public Boolean execute(String userId) {
-        DriverProfile profile = driverProfileRepository.findById(userId).orElseThrow(
+        DriverProfile profile = driverProfileRepository.findByUserId(userId).orElseThrow(
             () -> new IllegalArgumentException("Không tìm thấy tài xế"));
         if (profile.getAccountStatus() != AccountStatus.ACTIVE) {
             throw new IllegalStateException("Hồ sơ tài xế không hoạt động");

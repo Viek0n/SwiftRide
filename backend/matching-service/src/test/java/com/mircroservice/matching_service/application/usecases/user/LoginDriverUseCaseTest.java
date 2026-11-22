@@ -53,7 +53,7 @@ class LoginDriverUseCaseTest {
 
         when(userRepository.findByPhone(user.getPhone())).thenReturn(Optional.of(user));
         when(passwordHasher.matches("password", user.getPassword())).thenReturn(true);
-        when(driverProfileRepository.findById(user.getId())).thenReturn(Optional.of(driver));
+        when(driverProfileRepository.findByUserId(user.getId())).thenReturn(Optional.of(driver));
         when(jwtTokenService.createToken(user, "DRIVER")).thenReturn("signed-driver-token");
 
         var response = loginDriver.execute(new LoginRequest(user.getPhone(), "password"));

@@ -31,7 +31,7 @@ public class SoftDeleteUserUseCase {
         }
 
         userRepository.softDeleteById(userId);
-        if (driverProfileRepository.existsById(userId)) {
+        if (driverProfileRepository.existsByUserId(userId)) {
             driverProfileRepository.softDeleteById(userId);
         }
         activeDriverRepository.deleteById(userId);

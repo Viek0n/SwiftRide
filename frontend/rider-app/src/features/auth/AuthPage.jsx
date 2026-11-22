@@ -42,14 +42,14 @@ export default function AuthPage({ mode, navigate, onSuccess }) {
 
     try {
       if (isRegister) {
-        await postAuthRequest("/register/user", {
+        await postAuthRequest("/register/rider", {
           name: values.name.trim(),
           phone: values.phone.trim(),
           password: values.password,
         });
       }
 
-      const result = await postAuthRequest("/login/user", {
+      const result = await postAuthRequest("/login/rider", {
         phone: values.phone.trim(),
         password: values.password,
       });

@@ -34,8 +34,8 @@ public class DriverProfileMongoRepository implements DriverProfileRepository {
     }
 
     @Override
-    public Optional<DriverProfile> findById(String id) {
-        return mongoRepository.findById(id).map(mapper::toDomain);
+    public Optional<DriverProfile> findByUserId(String userId) {
+        return mongoRepository.findByUserId(userId).map(mapper::toDomain);
     }
 
     @Override
@@ -46,13 +46,13 @@ public class DriverProfileMongoRepository implements DriverProfileRepository {
     }
 
     @Override
-    public boolean existsById(String id) {
-        return mongoRepository.existsById(id);
+    public boolean existsByUserId(String id) {
+        return mongoRepository.existsByUserId(id);
     }
 
     @Override
     public void softDeleteById(String id) {
-        DriverProfile driver = findById(id).orElseThrow(
+        DriverProfile driver = findByUserId(id).orElseThrow(
             () -> new IllegalArgumentException("Không tìm thấy tài xế"));
         driver.setAccountStatus(AccountStatus.SOFT_DELETE);
         driver.setUpdatedAt(Instant.now());

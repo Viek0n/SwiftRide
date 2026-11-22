@@ -8,11 +8,11 @@ import com.mircroservice.matching_service.domain.entities.DriverProfile;
 public interface DriverProfileRepository {
     DriverProfile save(DriverProfile driver);
 
-    Optional<DriverProfile> findById(String id);
+    Optional<DriverProfile> findByUserId(String userId);
 
     List<DriverProfile> findAll();
 
-    boolean existsById(String id);
+    boolean existsByUserId(String id);
 
     void softDeleteById(String id);
 

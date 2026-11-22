@@ -28,7 +28,7 @@ public class DeleteUserUseCase {
         }
 
         activeDriverRepository.deleteById(userId);
-        if (driverProfileRepository.existsById(userId)) {
+        if (driverProfileRepository.existsByUserId(userId)) {
             driverProfileRepository.deleteById(userId);
         }
         userRepository.deleteById(userId);

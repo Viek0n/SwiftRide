@@ -31,7 +31,7 @@ public class RegisterDriverUseCase {
         if (user.getAccountStatus() != AccountStatus.ACTIVE) {
             throw new IllegalArgumentException("Tài khoản không thể đăng ký làm tài xế");
         }
-        if (driverProfileRepository.existsById(request.userId())) {
+        if (driverProfileRepository.existsByUserId(request.userId())) {
             throw new IllegalArgumentException("Hồ sơ tài xế đã tồn tại");
         }
 
