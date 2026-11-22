@@ -32,10 +32,14 @@ public class JwtTokenService {
     }
 
     public String createToken(User user) {
+        return createToken(user, "USER");
+    }
+
+    public String createToken(User user, String role) {
         Instant issuedAt = Instant.now();
         return Jwts.builder()
             .subject(user.getId())
-            .claim("role", "USER")
+            .claim("role", role)
             .issuedAt(Date.from(issuedAt))
             .expiration(Date.from(issuedAt.plusSeconds(expirationSeconds)))
             .signWith(signingKey, Jwts.SIG.HS256)

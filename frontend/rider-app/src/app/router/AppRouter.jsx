@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DriverDashboard from "../../features/driver/pages/DriverDashboard";
 import DriverStatus from "../../features/driver/pages/DriverStatus";
 import DriverOrders from "../../features/driver/pages/DriverOrders";
@@ -9,6 +9,9 @@ import DriverHistory from "../../features/driver/pages/DriverHistory";
 import DriverNotifications from "../../features/driver/pages/DriverNotifications";
 import DriverProfile from "../../features/driver/pages/DriverProfile";
 import DriverVehicle from "../../features/driver/pages/DriverVehicle";
+import AuthPage from "../../features/auth/AuthPage";
+
+const SESSION_KEY = "swiftride.rider.session";
 
 const pages = [
   { match: (path) => path === "/rider/dashboard", title: "Tổng quan", subtitle: "Chào buổi sáng, Minh! Sẵn sàng cho một ngày hiệu quả nhé.", component: DriverDashboard },
@@ -24,7 +27,8 @@ const pages = [
 ];
 
 function getPath() {
-  return window.location.pathname.replace(/\/+$/, "") || "/rider/dashboard";
+  return window.location.pathname.replace(/\/+$/, "")
+    || (window.sessionStorage.getItem(SESSION_KEY) ? "/rider/dashboard" : "/rider/login");
 }
 
 export default function AppRouter() {
@@ -34,6 +38,8 @@ export default function AppRouter() {
   const Page = page.component;
   const orderId = path.match(/^\/rider\/orders\/([^/]+)$/)?.[1];
   const isMapPage = path === "/rider/map";
+  const authMode = path.match(/^\/rider\/(login|register)$/)?.[1];
+  const isAuthenticated = Boolean(window.sessionStorage.getItem(SESSION_KEY));
 
   useEffect(() => {
     const handlePopState = () => setPath(getPath());
@@ -41,18 +47,33 @@ export default function AppRouter() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
-  function navigate(nextPath) {
+  const navigate = useCallback((nextPath) => {
     if (nextPath === path) return;
     window.history.pushState({}, "", nextPath);
     setPath(nextPath);
     window.scrollTo(0, 0);
-  }
+  }, [path]);
+
+  useEffect(() => {
+    if (!authMode && !isAuthenticated) navigate("/rider/login");
+    if (authMode && isAuthenticated) navigate("/rider/dashboard");
+  }, [authMode, isAuthenticated, navigate]);
 
   function handleLink(event, nextPath) {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     navigate(nextPath);
   }
+
+  function logout() {
+    window.sessionStorage.removeItem(SESSION_KEY);
+    navigate("/rider/login");
+  }
+
+  if (authMode) {
+    return <AuthPage mode={authMode} navigate={navigate} onSuccess={() => navigate("/rider/dashboard")} />;
+  }
+  if (!isAuthenticated) return null;
 
   return (
     <div className="app-shell">
@@ -62,6 +83,7 @@ export default function AppRouter() {
             <span className="brand-mark">S</span>
             <span>SwiftRide</span>
           </a>
+          <div className="topbar-actions"><button className="auth-logout" onClick={logout}>Đăng xuất</button></div>
         </header>
         <main className={`page-main ${isMapPage ? "map-screen-main" : ""}`}>
           {!isMapPage && <div className="page-heading">

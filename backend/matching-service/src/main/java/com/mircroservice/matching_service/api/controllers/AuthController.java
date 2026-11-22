@@ -1,7 +1,11 @@
 package com.mircroservice.matching_service.api.controllers;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,7 @@ import com.mircroservice.matching_service.domain.dto.requests.DriverRegisterRequ
 import com.mircroservice.matching_service.domain.dto.requests.LoginRequest;
 import com.mircroservice.matching_service.domain.dto.requests.UserRegisterRequest;
 import com.mircroservice.matching_service.domain.dto.responses.DriverProfileResponse;
+import com.mircroservice.matching_service.domain.dto.responses.DriverLoginResponse;
 import com.mircroservice.matching_service.domain.dto.responses.UserLoginResponse;
 import com.mircroservice.matching_service.domain.dto.responses.UserResponse;
 
@@ -23,6 +28,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(AuthRoute.BASE)
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @AllArgsConstructor 
 public class AuthController {
     private final RegisterUserUseCase registerUser;
@@ -37,8 +43,8 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(registerUser.execute(request));
     }
 
-    @PostMapping(AuthRoute.REGISTER_DRIDER)
-    public ResponseEntity<DriverProfileResponse> registerRider(
+    @PostMapping(AuthRoute.REGISTER_DRIVER)
+    public ResponseEntity<DriverProfileResponse> registerDriver(
         @RequestBody DriverRegisterRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(registerDriver.execute(request));
@@ -49,8 +55,13 @@ public class AuthController {
         return ResponseEntity.ok(loginUser.execute(request));
     }
 
-    @PostMapping(AuthRoute.LOGIN_RIDER)
-    public ResponseEntity<DriverProfileResponse> loginRider(@RequestBody LoginRequest request) {
+    @PostMapping({AuthRoute.LOGIN_DRIVER, AuthRoute.LOGIN_RIDER})
+    public ResponseEntity<DriverLoginResponse> loginDriver(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(loginDriver.execute(request));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidAuthRequest(IllegalArgumentException exception) {
+        return ResponseEntity.badRequest().body(Map.of("message", exception.getMessage()));
     }
 }

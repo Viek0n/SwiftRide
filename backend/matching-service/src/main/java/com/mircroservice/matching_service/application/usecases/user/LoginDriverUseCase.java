@@ -3,8 +3,11 @@ package com.mircroservice.matching_service.application.usecases.user;
 import org.springframework.stereotype.Service;
 
 import com.mircroservice.matching_service.application.abstractions.PasswordHasher;
+import com.mircroservice.matching_service.application.security.JwtTokenService;
 import com.mircroservice.matching_service.domain.dto.requests.LoginRequest;
+import com.mircroservice.matching_service.domain.dto.responses.DriverLoginResponse;
 import com.mircroservice.matching_service.domain.dto.responses.DriverProfileResponse;
+import com.mircroservice.matching_service.domain.dto.responses.UserResponse;
 import com.mircroservice.matching_service.domain.entities.DriverProfile;
 import com.mircroservice.matching_service.domain.entities.User;
 import com.mircroservice.matching_service.domain.enumerators.AccountStatus;
@@ -18,18 +21,21 @@ public class LoginDriverUseCase {
     private final UserRepository userRepository;
     private final DriverProfileRepository driverProfileRepository;
     private final PasswordHasher passwordHasher;
+    private final JwtTokenService jwtTokenService;
 
     public LoginDriverUseCase(
         UserRepository userRepository,
         DriverProfileRepository driverProfileRepository,
-        PasswordHasher passwordHasher
+        PasswordHasher passwordHasher,
+        JwtTokenService jwtTokenService
     ) {
         this.userRepository = userRepository;
         this.driverProfileRepository = driverProfileRepository;
         this.passwordHasher = passwordHasher;
+        this.jwtTokenService = jwtTokenService;
     }
 
-    public DriverProfileResponse execute(LoginRequest request) {
+    public DriverLoginResponse execute(LoginRequest request) {
         User user = userRepository.findByPhone(request.phone()).orElseThrow(
             () -> new IllegalArgumentException(INVALID_CREDENTIALS));
         if (user.getAccountStatus() != AccountStatus.ACTIVE
@@ -43,6 +49,10 @@ public class LoginDriverUseCase {
             throw new IllegalArgumentException(INVALID_CREDENTIALS);
         }
 
-        return DriverProfileResponse.toResponse(driver);
+        return new DriverLoginResponse(
+            jwtTokenService.createToken(user, "DRIVER"),
+            UserResponse.toResponse(user),
+            DriverProfileResponse.toResponse(driver)
+        );
     }
 }
