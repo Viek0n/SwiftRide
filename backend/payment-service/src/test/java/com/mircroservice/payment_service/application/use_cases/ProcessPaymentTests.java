@@ -16,6 +16,8 @@ import com.mircroservice.payment_service.domain.entities.PaymentAttempt;
 import com.mircroservice.payment_service.domain.interfaces.PaymentProcessor;
 import com.mircroservice.payment_service.domain.repositories.BillRepository;
 
+//Kiểm tra một số tình huống nghiệp vụ bằng VNPay giả lập. 
+// Các tình huống bao gồm: tạo checkout, xử lý IPN, kiểm tra idempotency, tạo attempt mới sau khi thất bại.
 class ProcessPaymentTests {
     @Test
     void duplicateRideEventAndCheckoutRequestDoNotCreateDuplicateRecords() {

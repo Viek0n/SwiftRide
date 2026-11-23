@@ -25,7 +25,9 @@ import com.mircroservice.payment_service.domain.repositories.BillRepository;
 import com.mircroservice.payment_service.domain.value_objects.Money;
 import com.mircroservice.payment_service.domain.interfaces.PaymentProcessor;
 
+//Nơi xử lý nghiệp vụ chính: tạo bill, checkout, đọc trạng thái, xử lý IPN
 @Service
+//Lớp này xử lý các nghiệp vụ liên quan đến thanh toán, bao gồm tạo hóa đơn, tạo yêu cầu thanh toán, kiểm tra trạng thái thanh toán và xử lý thông báo từ cổng thanh toán VNPay.
 public class ProcessPayment {
     private static final String VND = "VND";
     private final BillRepository bills;
@@ -36,10 +38,13 @@ public class ProcessPayment {
         this.paymentProcessor = paymentProcessor;
     }
 
+    //Tạo hóa đơn thanh toán khi nhận được sự kiện RideCompleted
     public Bill registerCompletedRide(RideCompletedEvent event) {
+        //Kiểm tra dữ liệu sự kiện phải có tripId và riderId
         if (event == null || !hasText(event.tripId()) || !hasText(event.riderId())) {
             throw badRequest("tripId and riderId are required");
         }
+        //Kiểm tra dữ liệu sự kiện phải có currency là VND, chỉ hỗ trợ thanh toán bằng VND
         if (!VND.equalsIgnoreCase(event.currency())) {
             throw badRequest("Only VND payments are supported");
         }
@@ -56,7 +61,8 @@ public class ProcessPayment {
         if (existing.isPresent()) {
             return verifyDuplicateRideEvent(existing.get(), event);
         }
-
+        
+        //Tạo hóa đơn mới khi nhận được sự kiện RideCompleted
         Instant now = Instant.now();
         Bill bill = new Bill();
         bill.setId(new ObjectId().toHexString());
@@ -81,6 +87,7 @@ public class ProcessPayment {
         }
     }
 
+    //Tạo yêu cầu thanh toán mới cho hóa đơn đã tồn tại
     public CheckoutResponse createCheckout(String tripId, String riderId, String idempotencyKey, String clientIp) {
         if (!hasText(idempotencyKey) || idempotencyKey.length() < 8 || idempotencyKey.length() > 120) {
             throw badRequest("Idempotency-Key must contain 8 to 120 characters");
@@ -137,6 +144,7 @@ public class ProcessPayment {
         return checkoutResponse(bill, attempt);
     }
 
+    //Lấy thông tin hóa đơn theo tripId
     public PaymentStatusResponse getStatus(String tripId, String riderId) {
         Bill bill = findBill(tripId);
         verifyRider(bill, riderId);
@@ -151,6 +159,7 @@ public class ProcessPayment {
                 bill.getUpdatedAt());
     }
 
+    //Xử lý thông báo thanh toán từ VNPAY
     public VnpayIpnResult processIpn(java.util.Map<String, String> parameters) {
         if (!paymentProcessor.verifyCallback(parameters)) {
             return new VnpayIpnResult("97", "Checksum failed");
@@ -201,6 +210,7 @@ public class ProcessPayment {
         return settleFailure(bill, attempt, transactionId, responseCode);
     }
 
+    //Xử lý trả về từ VNPAY sau khi thanh toán thành công hoặc thất bại
     public PaymentReturnStatus getReturnStatus(java.util.Map<String, String> parameters) {
         if (!paymentProcessor.verifyCallback(parameters)) {
             return new PaymentReturnStatus(null, "invalid_signature");
@@ -235,6 +245,7 @@ public class ProcessPayment {
         return new PaymentReturnStatus(bill.getTripId(), status);
     }
 
+    //Xử lý thanh toán thành công
     private VnpayIpnResult settleSuccess(Bill bill, PaymentAttempt attempt, String transactionId, String responseCode) {
         if (alreadyRecorded(bill, transactionId)) {
             return new VnpayIpnResult("02", "Order already confirmed");
@@ -247,6 +258,7 @@ public class ProcessPayment {
         attempt.setGatewayTransactionId(transactionId);
         attempt.setResponseCode(responseCode);
         attempt.setUpdatedAt(now);
+        //Ghi nhận giao dịch thanh toán vào sổ cái (ledger) và tạo sự kiện thanh toán đã được giải quyết (PaymentSettled)
         appendLedger(bill, transactionId, excessCapture ? "EXCESS_CAPTURE" : "PAYMENT_CAPTURED",
                 excessCapture ? "CUSTOMER_REFUND_PAYABLE" : "TRIP_FUNDS_PAYABLE", now);
         if (!excessCapture) {
@@ -297,6 +309,7 @@ public class ProcessPayment {
         if (bill.getLedgerTransactions() == null) {
             bill.setLedgerTransactions(new ArrayList<>());
         }
+        //Tạo các mục ghi sổ (ledger entries) để ghi nhận giao dịch thanh toán
         List<LedgerEntry> entries = List.of(
                 new LedgerEntry("PAYMENT_GATEWAY_CLEARING", LedgerEntry.Direction.DEBIT, bill.getAmount()),
                 new LedgerEntry(proceedsAccount, LedgerEntry.Direction.CREDIT, bill.getAmount()));

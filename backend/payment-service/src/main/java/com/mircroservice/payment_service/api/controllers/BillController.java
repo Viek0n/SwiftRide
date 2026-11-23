@@ -10,6 +10,8 @@ import com.mircroservice.payment_service.api.PaymentRoute;
 import com.mircroservice.payment_service.application.dto.PaymentStatusResponse;
 import com.mircroservice.payment_service.application.use_cases.ProcessPayment;
 
+// API đọc trạng thái thanh toán cho một chuyến đi cụ thể. 
+// Nó nhận thông tin về chuyến đi và người dùng, sau đó trả về trạng thái thanh toán hiện tại của hóa đơn liên quan đến chuyến đi đó.
 @RestController
 @RequestMapping(PaymentRoute.PAYMENTS)
 public class BillController {

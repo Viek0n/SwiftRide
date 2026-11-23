@@ -18,6 +18,7 @@ import com.mircroservice.payment_service.domain.entities.Bill;
 import com.mircroservice.payment_service.domain.entities.PaymentAttempt;
 import com.mircroservice.payment_service.infrastructure.config.VnpayProperties;
 
+// Tạo URL VNPay, ký và kiểm tra chữ ký callback
 @Component
 public class VnpayGateway {
     private static final DateTimeFormatter VNPAY_DATE = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
