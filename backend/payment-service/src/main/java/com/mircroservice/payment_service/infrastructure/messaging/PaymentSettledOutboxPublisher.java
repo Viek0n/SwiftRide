@@ -16,6 +16,8 @@ import com.mircroservice.payment_service.domain.repositories.BillRepository;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
+//Đọc outbox và phát sự kiện PaymentSettled ra RabbitMQ. 
+// Nó định kỳ kiểm tra cơ sở dữ liệu để tìm các sự kiện thanh toán chưa được xuất bản và gửi chúng đến RabbitMQ.
 @Component
 @ConditionalOnProperty(name = "swift-ride.messaging.rabbitmq.enabled", havingValue = "true")
 public class PaymentSettledOutboxPublisher {

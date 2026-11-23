@@ -9,6 +9,7 @@ import com.mircroservice.payment_service.application.use_cases.ProcessPayment;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
+// Nhận sự kiện chuyến đi hoàn tất từ RabbitMQ để gọi tạo bill
 @Component
 @ConditionalOnProperty(name = "swift-ride.messaging.rabbitmq.enabled", havingValue = "true")
 public class RideCompletedListener {

@@ -5,6 +5,9 @@ import java.util.Map;
 import com.mircroservice.payment_service.domain.entities.Bill;
 import com.mircroservice.payment_service.domain.entities.PaymentAttempt;
 
+/**
+ * Giao diện định nghĩa các phương thức cho việc xử lý thanh toán
+*/
 public interface PaymentProcessor {
     boolean isAvailable();
 
