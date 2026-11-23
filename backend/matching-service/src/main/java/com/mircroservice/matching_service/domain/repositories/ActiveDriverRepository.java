@@ -13,6 +13,8 @@ public interface ActiveDriverRepository {
 
     Optional<ActiveDriver> findById(String id);
 
+    Optional<ActiveDriver> findByUserId(String id);
+
     List<ActiveDriver> findByActiveStage(ActiveStage activeStage);
 
     boolean updatePosition(String userId, Position position);

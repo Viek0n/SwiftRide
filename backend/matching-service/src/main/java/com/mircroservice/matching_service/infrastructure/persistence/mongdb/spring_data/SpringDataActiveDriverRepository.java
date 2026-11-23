@@ -1,6 +1,7 @@
 package com.mircroservice.matching_service.infrastructure.persistence.mongdb.spring_data;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -14,6 +15,8 @@ public interface SpringDataActiveDriverRepository extends MongoRepository<Active
     List<ActiveDriverDocument> findByActiveStage(ActiveStage activeStage);
 
     Boolean existsByUserId(String userId);
+
+    Optional<ActiveDriverDocument> findByUserId(String userId);
     
     @Query("{ 'userId': ?0 }")
     @Update("{ '$set': { 'activeStage': ?1 } }")

@@ -135,4 +135,9 @@ public class ActiveDriverMongoRepository implements ActiveDriverRepository {
                 .set("activeStage", ActiveStage.ONLINE);
         return mongoTemplate.updateFirst(query, update, ActiveDriverDocument.class).getModifiedCount() > 0;
     }
+
+    @Override
+    public Optional<ActiveDriver> findByUserId(String id) {
+        return mongoRepository.findByUserId(id).map(mapper::toDomain);
+    }
 }

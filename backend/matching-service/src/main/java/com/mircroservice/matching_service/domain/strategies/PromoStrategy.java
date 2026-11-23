@@ -10,6 +10,6 @@ import com.mircroservice.matching_service.domain.constants.PriceMultiplier;
 public class PromoStrategy implements PricingStrategy {
     @Override
     public BigDecimal multiplier() {
-        return BigDecimal.ONE.subtract(BigDecimal.valueOf(PriceMultiplier.PROMO));
+        return BigDecimal.valueOf(PriceMultiplier.PROMO);
     }
 }

@@ -28,7 +28,7 @@ public class DriverStartMatchingUseCase {
             throw new IllegalStateException("Hồ sơ tài xế không hoạt động");
         }
 
-        ActiveDriver activeDriver = activeDriverRepository.findById(userId).orElseThrow(
+        ActiveDriver activeDriver = activeDriverRepository.findByUserId(userId).orElseThrow(
             () -> new IllegalArgumentException("Không tìm thấy trạng thái tài xế"));
         
         activeDriver.startMatching();

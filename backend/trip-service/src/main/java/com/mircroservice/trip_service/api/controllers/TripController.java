@@ -46,12 +46,12 @@ public class TripController {
         return tripService.getTripsForRider(riderId);
     }
 
-    @PatchMapping("/{tripId}/confirm")
+    @PatchMapping(TripRoute.RIDER_ACCEPT)
     public Trip confirmTrip(@PathVariable("tripId") String tripId) {
         return tripService.confirmTrip(tripId);
     }
 
-    @PostMapping(TripRoute.REJECT)
+    @PostMapping(TripRoute.RIDER_REJECT)
     public ResponseEntity<Void> rejectTrip(@PathVariable("tripId") String tripId) {
         tripService.rejectTrip(tripId);
         return ResponseEntity.noContent().build();
@@ -73,7 +73,7 @@ public class TripController {
         return tripService.completeTrip(tripId, request.driverId());
     }
 
-    @PatchMapping("/{tripId}/driver-accept")
+    @PatchMapping(TripRoute.DRIVER_ACCEPT)
     public Trip acceptTrip(
         @PathVariable("tripId") String tripId,
         @Valid @RequestBody DriverAssignmentRequest request
@@ -81,7 +81,7 @@ public class TripController {
         return tripService.assignDriver(tripId, request.driverId());
     }
 
-    @PatchMapping("/{tripId}/reject")
+    @PatchMapping(TripRoute.DRIVER_REJECT)
     public Trip rejectDriver(
         @PathVariable("tripId") String tripId,
         @Valid @RequestBody DriverAssignmentRequest request

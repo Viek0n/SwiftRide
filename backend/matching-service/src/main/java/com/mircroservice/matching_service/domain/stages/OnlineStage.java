@@ -17,7 +17,7 @@ public class OnlineStage implements ActiveDriverStage{
     }
 
     public void startMatching(ActiveDriver driver){
-        driver.setStage(new OnlineStage());
+        driver.setStage(new MatchingStage());
     }
 
     @Override 

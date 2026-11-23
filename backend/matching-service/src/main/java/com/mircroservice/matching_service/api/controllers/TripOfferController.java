@@ -17,7 +17,7 @@ import com.mircroservice.matching_service.domain.entities.TripOffer;
 import com.mircroservice.matching_service.domain.repositories.TripOfferRepository;
 
 @RestController
-@RequestMapping("api/trips")
+@RequestMapping("api/trips-offer")
 public class TripOfferController {
     private final TripOfferRepository offerRepository;
     private final TripOfferAcceptedUseCase acceptedUseCase;

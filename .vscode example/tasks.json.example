@@ -89,7 +89,7 @@
       "dependsOrder": "sequence",
       "dependsOn": [
         "Setup frontend/driver-app",
-        "Setup Setup frontend/rider-app",
+        "Setup frontend/rider-app",
       ],
       "problemMatcher": []
     },

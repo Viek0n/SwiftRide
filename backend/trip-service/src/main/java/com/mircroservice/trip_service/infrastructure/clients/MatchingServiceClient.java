@@ -44,7 +44,7 @@ public class MatchingServiceClient {
     public FareResult calculateFare(Position origin, Position destination) {
         FareResult fare = restClient.post()
             .uri("/api/match/quote")
-            .body(new FareRequest(origin, destination, false, false))
+            .body(new FareRequest(origin, destination, true, true))
             .retrieve()
             .body(FareResult.class);
         if (fare == null || fare.totalFare() == null) {
