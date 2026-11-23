@@ -44,7 +44,7 @@ public class MatchingController {
         return ResponseEntity.ok(calculateTripFare.execute(request));
     }
 
-    @PostMapping("/match")
+    @PostMapping(MatchingRoute.MATCH)
     public ResponseEntity<Void> match(@RequestBody MatchRequest request) {
         if (matchingRiderWithDriver == null) {
             return ResponseEntity.noContent().build();

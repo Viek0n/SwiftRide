@@ -6,8 +6,6 @@ import DriverOrderDetail from "../../features/driver/pages/DriverOrderDetail";
 import DriverActiveTrip from "../../features/driver/pages/DriverActiveTrip";
 import DriverMap from "../../features/driver/pages/DriverMap";
 import DriverHistory from "../../features/driver/pages/DriverHistory";
-import DriverEarnings from "../../features/driver/pages/DriverEarnings";
-import DriverNotifications from "../../features/driver/pages/DriverNotifications";
 import DriverProfile from "../../features/driver/pages/DriverProfile";
 import DriverVehicle from "../../features/driver/pages/DriverVehicle";
 import AuthPage from "../../features/auth/AuthPage";
@@ -22,15 +20,13 @@ const pages = [
   { match: (path) => path === "/driver/active-trip", title: "Chuyến đang thực hiện", subtitle: "Theo dõi tiến trình chuyến đi hiện tại.", component: DriverActiveTrip },
   { match: (path) => path === "/driver/map", title: "Bản đồ điều hướng", subtitle: "Tìm đường nhanh và thuận tiện nhất.", component: DriverMap },
   { match: (path) => path === "/driver/history", title: "Lịch sử chuyến", subtitle: "Theo dõi các chuyến đi đã hoàn thành.", component: DriverHistory },
-  { match: (path) => path === "/driver/earnings", title: "Thu nhập", subtitle: "Tổng quan doanh thu và hiệu suất của bạn.", component: DriverEarnings },
-  { match: (path) => path === "/driver/notifications", title: "Thông báo", subtitle: "Cập nhật mới nhất dành cho tài xế.", component: DriverNotifications },
   { match: (path) => path === "/driver/profile", title: "Hồ sơ cá nhân", subtitle: "Quản lý thông tin tài khoản của bạn.", component: DriverProfile },
   { match: (path) => path === "/driver/vehicle", title: "Quản lý phương tiện", subtitle: "Thông tin xe đã đăng ký với SwiftRide.", component: DriverVehicle },
 ];
 
 function getPath() {
   return window.location.pathname.replace(/\/+$/, "")
-    || (window.sessionStorage.getItem(SESSION_KEY) ? "/driver/dashboard" : "/driver/login");
+    || (window.sessionStorage.getItem(SESSION_KEY) ? "/driver/map" : "/driver/login");
 }
 
 export default function AppRouter() {
@@ -40,7 +36,7 @@ export default function AppRouter() {
   const Page = page.component;
   const orderId = path.match(/^\/driver\/orders\/([^/]+)$/)?.[1];
   const isMapPage = path === "/driver/map";
-  const isFinancePage = path === "/driver/history" || path === "/driver/earnings";
+  const isFinancePage = path === "/driver/history";
   const authMode = path.match(/^\/driver\/(login|register)$/)?.[1];
   const isAuthenticated = Boolean(window.sessionStorage.getItem(SESSION_KEY));
 
@@ -59,7 +55,7 @@ export default function AppRouter() {
 
   useEffect(() => {
     if (!authMode && !isAuthenticated) navigate("/driver/login");
-    if (authMode && isAuthenticated) navigate("/driver/dashboard");
+    if (authMode && isAuthenticated) navigate("/driver/map");
   }, [authMode, isAuthenticated, navigate]);
 
   function handleLink(event, nextPath) {
@@ -74,7 +70,7 @@ export default function AppRouter() {
   }
 
   if (authMode) {
-    return <AuthPage mode={authMode} navigate={navigate} onSuccess={() => navigate("/driver/dashboard")} />;
+    return <AuthPage mode={authMode} navigate={navigate} onSuccess={() => navigate("/driver/map")} />;
   }
   if (!isAuthenticated) return null;
 
@@ -88,7 +84,6 @@ export default function AppRouter() {
           </a>
           <div className="topbar-actions">
             <button className="auth-logout" onClick={logout}>Đăng xuất</button>
-            <button className="icon-button notification-button" aria-label="Mở thông báo" onClick={() => navigate("/driver/notifications")}>♧<i /></button>
           </div>
         </header>
         <main className={`page-main ${isMapPage ? "map-screen-main" : ""}`}>

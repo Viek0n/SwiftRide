@@ -20,6 +20,9 @@ spring:
     uri: ${MONGODB_URI}
     database: ${MONGODB_DATABASE}
 
+jwt:
+  secret-base64: ${JWT_SECRET_BASE64}
+
 eureka:
   client:
     register-with-eureka: true

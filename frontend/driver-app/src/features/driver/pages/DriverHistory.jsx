@@ -1,5 +1,5 @@
-import { History } from "./DriverPageContent";
+import DriverTripHistory from "./DriverTripHistory";
 
 export default function DriverHistory(props) {
-  return <History {...props} />;
+  return <DriverTripHistory {...props} />;
 }

@@ -1,5 +1,5 @@
-import { Profile } from "./DriverPageContent";
+import DriverAccount from "./DriverAccount";
 
 export default function DriverProfile(props) {
-  return <Profile {...props} />;
+  return <DriverAccount {...props} />;
 }

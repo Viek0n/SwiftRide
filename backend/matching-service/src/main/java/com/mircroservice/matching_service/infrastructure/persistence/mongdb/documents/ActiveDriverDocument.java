@@ -3,6 +3,8 @@ package com.mircroservice.matching_service.infrastructure.persistence.mongdb.doc
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import com.mircroservice.matching_service.domain.enumerators.ActiveStage;
 
@@ -15,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor 
 @Document ("active_drivers")
 public class ActiveDriverDocument {
-    @Id
+    @Field(targetType = FieldType.OBJECT_ID)
     private String userId;
 
     private ActiveStage activeStage;

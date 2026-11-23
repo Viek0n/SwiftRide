@@ -24,6 +24,10 @@ public class DriverLocationUpdateUseCase {
             ));
         
         activeDriver.setActivePosition(pos);
-        return activeDriverRepo.save(activeDriver);
+        if(activeDriverRepo.existsByUserId(userId))
+            activeDriverRepo.updatePosition(userId, pos);
+        else
+            activeDriverRepo.save(activeDriver);
+        return activeDriver;
     }
 }

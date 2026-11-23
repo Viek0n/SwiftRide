@@ -37,7 +37,7 @@ public class TripController {
     }
 
     @GetMapping(TripRoute.GET)
-    public Trip getTrip(@PathVariable String tripId) {
+    public Trip getTrip(@PathVariable("tripId") String tripId) {
         return tripService.getTrip(tripId);
     }
 
@@ -46,20 +46,20 @@ public class TripController {
         return tripService.getTripsForRider(riderId);
     }
 
-    @PatchMapping(TripRoute.ACCEPT)
-    public Trip confirmTrip(@PathVariable String tripId) {
+    @PatchMapping("/{tripId}/confirm")
+    public Trip confirmTrip(@PathVariable("tripId") String tripId) {
         return tripService.confirmTrip(tripId);
     }
 
     @PostMapping(TripRoute.REJECT)
-    public ResponseEntity<Void> rejectTrip(@PathVariable String tripId) {
+    public ResponseEntity<Void> rejectTrip(@PathVariable("tripId") String tripId) {
         tripService.rejectTrip(tripId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping(TripRoute.PICKEDUP)
     public Trip pickedUp(
-        @PathVariable String tripId,
+        @PathVariable("tripId") String tripId,
         @Valid @RequestBody DriverAssignmentRequest request
     ) {
         return tripService.pickedUp(tripId, request.driverId());
@@ -67,7 +67,7 @@ public class TripController {
 
     @PostMapping(TripRoute.COMPLETE)
     public Trip complete(
-        @PathVariable String tripId,
+        @PathVariable("tripId") String tripId,
         @Valid @RequestBody DriverAssignmentRequest request
     ) {
         return tripService.completeTrip(tripId, request.driverId());
@@ -75,7 +75,7 @@ public class TripController {
 
     @PatchMapping("/{tripId}/driver-accept")
     public Trip acceptTrip(
-        @PathVariable String tripId,
+        @PathVariable("tripId") String tripId,
         @Valid @RequestBody DriverAssignmentRequest request
     ) {
         return tripService.assignDriver(tripId, request.driverId());
@@ -83,7 +83,7 @@ public class TripController {
 
     @PatchMapping("/{tripId}/reject")
     public Trip rejectDriver(
-        @PathVariable String tripId,
+        @PathVariable("tripId") String tripId,
         @Valid @RequestBody DriverAssignmentRequest request
     ) {
         return tripService.rejectDriver(tripId, request.driverId());
@@ -91,19 +91,19 @@ public class TripController {
 
     @PatchMapping("/{tripId}/dropoff")
     public Trip completeTrip(
-        @PathVariable String tripId,
+        @PathVariable("tripId") String tripId,
         @Valid @RequestBody DriverAssignmentRequest request
     ) {
         return tripService.completeTrip(tripId, request.driverId());
     }
 
     @PatchMapping("/{tripId}/cancel")
-    public Trip cancelTrip(@PathVariable String tripId) {
+    public Trip cancelTrip(@PathVariable("tripId") String tripId) {
         return tripService.cancelTrip(tripId);
     }
 
     @PatchMapping("/{tripId}/matching-failed")
-    public Trip markMatchingFailed(@PathVariable String tripId) {
+    public Trip markMatchingFailed(@PathVariable("tripId") String tripId) {
         return tripService.markMatchingFailed(tripId);
     }
 }
