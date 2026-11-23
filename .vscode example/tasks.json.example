@@ -1,0 +1,307 @@
+
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Setup backend",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Setup backend/api-gateway",
+        "Setup backend/eureka-server",
+        "Setup backend/matching-service",
+        "Setup backend/payment-service",
+        "Setup backend/trip-service"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Setup backend/api-gateway",
+      "type": "shell",
+      "command": "mvn clean install",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/api-gateway",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Setup backend/eureka-server",
+      "type": "shell",
+      "command": "mvn clean install",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/eureka-server",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Setup backend/matching-service",
+      "type": "shell",
+      "command": "mvn clean install",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/matching-service",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Setup backend/payment-service",
+      "type": "shell",
+      "command": "mvn clean install",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/payment-service",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Setup backend/trip-service",
+      "type": "shell",
+      "command": "mvn clean install",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/trip-service",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Setup frontend",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Setup frontend/driver-app",
+        "Setup Setup frontend/rider-app",
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Setup frontend/driver-app",
+      "type": "shell",
+      "command": "npm install",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend/driver-app"
+      },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Setup frontend/rider-app",
+      "type": "shell",
+      "command": "npm install",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend/rider-app"
+      },
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Start backend",
+      "dependsOrder": "parallel",
+      "dependsOn": [
+        "Start backend/api-gateway",
+        "Start backend/eureka-server",
+        "Start backend/matching-service",
+        "Start backend/payment-service",
+        "Start backend/trip-service"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Start backend/api-gateway",
+      "type": "shell",
+      "command": "mvn spring-boot:run",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/api-gateway",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Started .* in .*"
+        }
+      }
+    },
+    {
+      "label": "Start backend/eureka-server",
+      "type": "shell",
+      "command": "mvn spring-boot:run",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/eureka-server",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Started .* in .*"
+        }
+      }
+    },
+    {
+      "label": "Start backend/matching-service",
+      "type": "shell",
+      "command": "mvn spring-boot:run",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/matching-service",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Started .* in .*"
+        }
+      }
+    },
+    {
+      "label": "Start backend/payment-service",
+      "type": "shell",
+      "command": "mvn spring-boot:run",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/payment-service",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Started .* in .*"
+        }
+      }
+    },
+    {
+      "label": "Start backend/trip-service",
+      "type": "shell",
+      "command": "mvn spring-boot:run",
+      "options": {
+        "cwd": "${workspaceFolder}/backend/trip-service",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Started .* in .*"
+        }
+      }
+    },
+    {
+      "label": "Start frontend",
+      "dependsOrder": "parallel",
+      "dependsOn": [
+        "Start frontend/driver-app",
+        "Start frontend/rider-app",
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Start frontend/driver-app",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend/driver-app"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Local:.*"
+        }
+      }
+    },
+    {
+      "label": "Start frontend/rider-app",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend/rider-app"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Local:.*"
+        }
+      }
+    },
+    {
+      "label": "Start Project",
+      "dependsOrder": "parallel",
+      "dependsOn": [
+        "Start backend",
+        "Start frontend"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}
