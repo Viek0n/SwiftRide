@@ -1,34 +1,26 @@
 import { useCallback, useEffect, useState } from "react";
-import DriverDashboard from "../../features/driver/pages/DriverDashboard";
-import DriverStatus from "../../features/driver/pages/DriverStatus";
-import DriverOrders from "../../features/driver/pages/DriverOrders";
-import DriverOrderDetail from "../../features/driver/pages/DriverOrderDetail";
-import DriverActiveTrip from "../../features/driver/pages/DriverActiveTrip";
-import DriverMap from "../../features/driver/pages/DriverMap";
-import DriverHistory from "../../features/driver/pages/DriverHistory";
-import DriverNotifications from "../../features/driver/pages/DriverNotifications";
-import DriverProfile from "../../features/driver/pages/DriverProfile";
-import DriverVehicle from "../../features/driver/pages/DriverVehicle";
-import AuthPage from "../../features/auth/AuthPage";
+import DriverOrders from "../../pages/DriverOrders";
+import DriverOrderDetail from "../../pages/DriverOrderDetail";
+import DriverActiveTrip from "../../pages/DriverActiveTrip";
+import DriverMap from "../../pages/DriverMap";
+import DriverHistory from "../../pages/DriverHistory";
+import DriverProfile from "../../pages/DriverProfile";
+import AuthPage from "../../pages/auth/AuthPage";
 
 const SESSION_KEY = "swiftride.rider.session";
 
 const pages = [
-  { match: (path) => path === "/rider/dashboard", title: "Tổng quan", subtitle: "Chào buổi sáng, Minh! Sẵn sàng cho một ngày hiệu quả nhé.", component: DriverDashboard },
-  { match: (path) => path === "/rider/status", title: "Trạng thái hoạt động", subtitle: "Quản lý trạng thái sẵn sàng nhận chuyến.", component: DriverStatus },
   { match: (path) => path === "/rider/orders", title: "Danh sách chuyến mới", subtitle: "Các yêu cầu chuyến đi phù hợp gần bạn.", component: DriverOrders },
   { match: (path) => /^\/rider\/orders\/[^/]+$/.test(path), title: "Chi tiết chuyến", subtitle: "Xem thông tin và quyết định nhận chuyến.", component: DriverOrderDetail },
   { match: (path) => path === "/rider/active-trip", title: "Chuyến đang thực hiện", subtitle: "Theo dõi tiến trình chuyến đi hiện tại.", component: DriverActiveTrip },
   { match: (path) => path === "/rider/map", title: "Bản đồ điều hướng", subtitle: "Tìm đường nhanh và thuận tiện nhất.", component: DriverMap },
   { match: (path) => path === "/rider/history", title: "Lịch sử chuyến", subtitle: "Theo dõi các chuyến đi đã hoàn thành.", component: DriverHistory },
-  { match: (path) => path === "/rider/notifications", title: "Thông báo", subtitle: "Cập nhật mới nhất dành cho tài xế.", component: DriverNotifications },
   { match: (path) => path === "/rider/profile", title: "Hồ sơ cá nhân", subtitle: "Quản lý thông tin tài khoản của bạn.", component: DriverProfile },
-  { match: (path) => path === "/rider/vehicle", title: "Quản lý phương tiện", subtitle: "Thông tin xe đã đăng ký với SwiftRide.", component: DriverVehicle },
 ];
 
 function getPath() {
   return window.location.pathname.replace(/\/+$/, "")
-    || (window.sessionStorage.getItem(SESSION_KEY) ? "/rider/dashboard" : "/rider/login");
+    || (window.sessionStorage.getItem(SESSION_KEY) ? "/rider/map" : "/rider/login");
 }
 
 export default function AppRouter() {
@@ -56,7 +48,7 @@ export default function AppRouter() {
 
   useEffect(() => {
     if (!authMode && !isAuthenticated) navigate("/rider/login");
-    if (authMode && isAuthenticated) navigate("/rider/dashboard");
+    if (authMode && isAuthenticated) navigate("/rider/map");
   }, [authMode, isAuthenticated, navigate]);
 
   function handleLink(event, nextPath) {
@@ -71,7 +63,7 @@ export default function AppRouter() {
   }
 
   if (authMode) {
-    return <AuthPage mode={authMode} navigate={navigate} onSuccess={() => navigate("/rider/dashboard")} />;
+    return <AuthPage mode={authMode} navigate={navigate} onSuccess={() => navigate("/rider/map")} />;
   }
   if (!isAuthenticated) return null;
 

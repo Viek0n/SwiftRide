@@ -30,7 +30,7 @@ class MatchingServiceClientTest {
         MockRestServiceServer server = MockRestServiceServer.bindTo(builder).build();
         MatchingServiceClient client = new MatchingServiceClient(builder, BASE_URL);
 
-        server.expect(requestTo(BASE_URL + "/match/route"))
+        server.expect(requestTo(BASE_URL + "/api/match/route"))
             .andExpect(method(POST))
             .andExpect(content().json("""
                 {"origin":{"latitude":10.0,"longitude":106.0},
@@ -40,7 +40,7 @@ class MatchingServiceClientTest {
                 {"distanceMeters":1000,"durationSeconds":120,
                  "geometry":{"type":"LineString","coordinates":[[106.0,10.0],[106.1,10.1]]}}
                 """, APPLICATION_JSON));
-        server.expect(requestTo(BASE_URL + "/match/fare"))
+        server.expect(requestTo(BASE_URL + "/api/match/quote"))
             .andExpect(method(POST))
             .andExpect(content().json("""
                 {"origin":{"latitude":10.0,"longitude":106.0},
@@ -48,7 +48,7 @@ class MatchingServiceClientTest {
                  "surgeApplied":false,"promoApplied":false}
                 """))
             .andRespond(withSuccess("{\"totalFare\":5064.14}", APPLICATION_JSON));
-        server.expect(requestTo(BASE_URL + "/match"))
+        server.expect(requestTo(BASE_URL + "/api/match/match"))
             .andExpect(method(POST))
             .andExpect(content().json("""
                 {"tripId":"trip-1","userId":"rider-1",
@@ -57,15 +57,15 @@ class MatchingServiceClientTest {
             .andRespond(withSuccess("""
                 {"tripId":"trip-1","userId":"rider-1","driverId":"driver-1","attemptedDrivers":1}
                 """, APPLICATION_JSON));
-        server.expect(requestTo(BASE_URL + "/match/accept"))
+        server.expect(requestTo(BASE_URL + "/api/match/accept"))
             .andExpect(method(POST))
             .andExpect(content().json("{\"tripId\":\"trip-1\",\"driverId\":\"driver-1\"}"))
             .andRespond(withSuccess());
-        server.expect(requestTo(BASE_URL + "/match/confirm"))
+        server.expect(requestTo(BASE_URL + "/api/match/confirm"))
             .andExpect(method(POST))
             .andExpect(content().json("{\"tripId\":\"trip-1\",\"driverId\":\"driver-1\"}"))
             .andRespond(withSuccess());
-        server.expect(requestTo(BASE_URL + "/match/decline"))
+        server.expect(requestTo(BASE_URL + "/api/match/decline"))
             .andExpect(method(POST))
             .andExpect(content().json("{\"tripId\":\"trip-1\",\"driverId\":\"driver-1\"}"))
             .andRespond(withSuccess());
@@ -87,7 +87,7 @@ class MatchingServiceClientTest {
         RestClient.Builder builder = RestClient.builder();
         MockRestServiceServer server = MockRestServiceServer.bindTo(builder).build();
         MatchingServiceClient client = new MatchingServiceClient(builder, BASE_URL);
-        server.expect(requestTo(BASE_URL + "/match"))
+        server.expect(requestTo(BASE_URL + "/api/match/match"))
             .andExpect(method(POST))
             .andRespond(withStatus(HttpStatus.NO_CONTENT));
 

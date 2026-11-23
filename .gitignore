@@ -34,6 +34,8 @@ build/
 
 ### React ###
 **/node_modules/
+frontend/rider-app/public/maplibre-gl-worker.mjs
+frontend/driver-app/public/maplibre-gl-worker.mjs
 .npm-cache/
 coverage/
 

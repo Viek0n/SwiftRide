@@ -31,7 +31,7 @@ public class MatchingServiceClient {
 
     public RouteResult getRoute(Position origin, Position destination) {
         RouteResult route = restClient.post()
-            .uri("/match/route")
+            .uri("/api/match/route")
             .body(new RouteRequest(origin, destination))
             .retrieve()
             .body(RouteResult.class);
@@ -43,7 +43,7 @@ public class MatchingServiceClient {
 
     public FareResult calculateFare(Position origin, Position destination) {
         FareResult fare = restClient.post()
-            .uri("api/match/fare")
+            .uri("/api/match/quote")
             .body(new FareRequest(origin, destination, false, false))
             .retrieve()
             .body(FareResult.class);
@@ -55,7 +55,7 @@ public class MatchingServiceClient {
 
     public Optional<MatchResult> match(String tripId, String userId, Position origin) {
         ResponseEntity<MatchResult> response = restClient.post()
-            .uri("api/match")
+            .uri("/api/match")
             .body(new MatchRequest(tripId, userId, origin))
             .retrieve()
             .toEntity(MatchResult.class);
@@ -63,20 +63,20 @@ public class MatchingServiceClient {
     }
 
     public void accept(String tripId, String driverId) {
-        decide("api/match/accept", tripId, driverId);
+        decide("accept", tripId, driverId);
     }
 
     public void decline(String tripId, String driverId) {
-        decide("api/match/decline", tripId, driverId);
+        decide("decline", tripId, driverId);
     }
 
     public void confirm(String tripId, String driverId) {
-        decide("api/match/confirm", tripId, driverId);
+        decide("confirm", tripId, driverId);
     }
 
     private void decide(String path, String tripId, String driverId) {
         restClient.post()
-            .uri(path)
+            .uri("/api/match/" + path)
             .body(new MatchDecisionRequest(tripId, driverId))
             .retrieve()
             .toBodilessEntity();

@@ -19,7 +19,7 @@ public interface ActiveDriverRepository {
 
     boolean updateStatus(String userId, ActiveStage stage);
 
-    boolean existsById(String id);
+    boolean existsByUserId(String id);
 
     void deleteById(String id);
 

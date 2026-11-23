@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
-import org.springframework.data.geo.Metrics;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -72,8 +70,8 @@ public class ActiveDriverMongoRepository implements ActiveDriverRepository {
     }
 
     @Override
-    public boolean existsById(String id) {
-        return mongoRepository.existsById(id);
+    public boolean existsByUserId(String id) {
+        return mongoRepository.existsByUserId(id);
     }
 
     @Override

@@ -673,6 +673,11 @@ body { background: #e9edf4; }
 .map-start-panel { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 9px; }
 .ride-location-fields { min-width: 0; display: flex; flex-direction: column; padding: 4px 10px; border: 1px solid #e8ebf0; border-radius: 9px; background: #fff; }
 .ride-location-field { min-width: 0; min-height: 43px; display: flex; align-items: center; gap: 9px; }
+.pickup-location-button { width: 100%; padding: 0; border: 0; color: inherit; background: transparent; text-align: left; }
+.pickup-location-button:hover .ride-location-copy strong, .pickup-location-button:focus-visible .ride-location-copy strong { color: #3559dc; }
+.pickup-location-button:focus-visible { outline: 2px solid #4263eb; outline-offset: 2px; border-radius: 5px; }
+.pickup-location-button:disabled { cursor: progress; opacity: .7; }
+.locate-icon { color: #4263eb; font-size: 17px; line-height: 1; }
 .ride-location-marker { width: 8px; height: 8px; flex: 0 0 auto; border: 2px solid #4d69e9; border-radius: 50%; }
 .destination-marker { border-color: #ef846f; background: #ef846f; }
 .ride-location-copy { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; }
@@ -697,4 +702,17 @@ body { background: #e9edf4; }
   .map-start-panel { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
   .rider-book-button { width: 100%; }
 }
+
+.maplibre-container { width: 100%; height: 100%; }
+.maplibre-container canvas { outline: none; }
+.map-action-card { position: absolute; z-index: 12; left: 50%; bottom: 96px; width: min(420px, calc(100% - 32px)); transform: translateX(-50%); padding: 16px; border: 1px solid #e7eaf0; border-radius: 14px; background: #fff; box-shadow: 0 12px 36px #1a2c4b26; }
+.map-action-card > strong { display: block; color: #17233a; font-size: 15px; }
+.map-action-card > p { margin: 6px 0 12px; color: #69758a; font-size: 11px; }
+.map-action-card .button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.trip-quote-details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px 0 12px; }
+.trip-quote-details > div { display: flex; flex-direction: column; gap: 4px; padding: 9px; border-radius: 8px; background: #f5f7fb; }
+.trip-quote-details span { color: #7d899b; font-size: 9px; }
+.trip-quote-details strong { color: #253652; font-size: 13px; }
+.map-error { margin: 6px 0 0; color: #b42318; font-size: 10px; }
+.map-error-floating { position: absolute; z-index: 20; top: 12px; left: 12px; max-width: calc(100% - 24px); margin: 0; padding: 8px 10px; border-radius: 8px; background: #fff1f0; }
 
