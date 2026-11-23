@@ -7,27 +7,44 @@ import org.springframework.stereotype.Repository;
 
 import com.mircroservice.trip_service.domain.entities.Trip;
 import com.mircroservice.trip_service.domain.repositories.TripRepository;
+import com.mircroservice.trip_service.infrastructure.documents.TripDocument;
 
 @Repository
-public class TripMongoRepository implements TripRepository{
-    private final TripSpringDataRepository mongoRepository;
+public class TripMongoRepository implements TripRepository {
 
-    public TripMongoRepository(TripSpringDataRepository mongoRepository) {
+    private final TripSpringDataRepository mongoRepository;
+    private final TripDocumentMapper mapper;
+
+    public TripMongoRepository(
+            TripSpringDataRepository mongoRepository,
+            TripDocumentMapper mapper) {
         this.mongoRepository = mongoRepository;
+        this.mapper = mapper;
     }
 
     @Override
     public Trip save(Trip trip) {
-        return mongoRepository.save(trip);
+        TripDocument document = mapper.toDocument(trip);
+        TripDocument saved = mongoRepository.save(document);
+        return mapper.toDomain(saved);
     }
 
     @Override
     public Optional<Trip> findById(String id) {
-        return mongoRepository.findById(id);
+        return mongoRepository.findById(id)
+                .map(mapper::toDomain);
     }
 
     @Override
     public List<Trip> findByRiderId(String riderId) {
-        return mongoRepository.findByRiderId(riderId);
+        return mongoRepository.findByRiderId(riderId)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public void deleteById(String id) {
+        mongoRepository.deleteById(id);
     }
 }

@@ -1,0 +1,19 @@
+package com.mircroservice.trip_service.api;
+
+public class TripRoute {
+    public static final String BASE = "api/trips";
+
+    public static final String CREATE = "";
+    public static final String GET = "/{id}";
+
+    public static final String ACCEPT = "/{id}/driver-accept";
+    public static final String REJECT = "/{id}/driver-reject";
+    public static final String EXPIRE = "/{id}/expire";
+    
+    public static final String PICKEDUP = "/{id}/pickedup";
+    public static final String COMPLETE = "/{id}/complete";
+
+    public TripRoute(){
+        
+    }
+}

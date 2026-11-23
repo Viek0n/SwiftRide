@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.mircroservice.trip_service.domain.entities.Trip;
+import com.mircroservice.trip_service.infrastructure.documents.TripDocument;
 
-public interface TripSpringDataRepository extends MongoRepository<Trip, String> {
-    List<Trip> findByRiderId(String riderId);
+public interface TripSpringDataRepository
+        extends MongoRepository<TripDocument, String> {
+
+    List<TripDocument> findByRiderId(String riderId);
 }

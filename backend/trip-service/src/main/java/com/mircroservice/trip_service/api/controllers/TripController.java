@@ -17,11 +17,12 @@ import com.mircroservice.trip_service.application.dto.DriverAssignmentRequest;
 import com.mircroservice.trip_service.application.dto.TripCreateRequest;
 import com.mircroservice.trip_service.domain.entities.Trip;
 import com.mircroservice.trip_service.infrastructure.services.TripService;
+import com.mircroservice.trip_service.api.TripRoute;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/trips")
+@RequestMapping(TripRoute.BASE)
 public class TripController {
     private final TripService tripService;
 
@@ -32,10 +33,10 @@ public class TripController {
     @PostMapping
     public ResponseEntity<Trip> createTrip(@Valid @RequestBody TripCreateRequest request) {
         var trip = tripService.createTrip(request);
-        return ResponseEntity.created(URI.create("/api/trips/" + trip.getId())).body(trip);
+        return ResponseEntity.created(URI.create("trips/" + trip.getId())).body(trip);
     }
 
-    @GetMapping("/{tripId}")
+    @GetMapping(TripRoute.GET)
     public Trip getTrip(@PathVariable String tripId) {
         return tripService.getTrip(tripId);
     }
@@ -45,7 +46,34 @@ public class TripController {
         return tripService.getTripsForRider(riderId);
     }
 
-    @PatchMapping("/{tripId}/accept")
+    @PatchMapping(TripRoute.ACCEPT)
+    public Trip confirmTrip(@PathVariable String tripId) {
+        return tripService.confirmTrip(tripId);
+    }
+
+    @PostMapping(TripRoute.REJECT)
+    public ResponseEntity<Void> rejectTrip(@PathVariable String tripId) {
+        tripService.rejectTrip(tripId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(TripRoute.PICKEDUP)
+    public Trip pickedUp(
+        @PathVariable String tripId,
+        @Valid @RequestBody DriverAssignmentRequest request
+    ) {
+        return tripService.pickedUp(tripId, request.driverId());
+    }
+
+    @PostMapping(TripRoute.COMPLETE)
+    public Trip complete(
+        @PathVariable String tripId,
+        @Valid @RequestBody DriverAssignmentRequest request
+    ) {
+        return tripService.completeTrip(tripId, request.driverId());
+    }
+
+    @PatchMapping("/{tripId}/driver-accept")
     public Trip acceptTrip(
         @PathVariable String tripId,
         @Valid @RequestBody DriverAssignmentRequest request
@@ -53,14 +81,20 @@ public class TripController {
         return tripService.assignDriver(tripId, request.driverId());
     }
 
-    @PatchMapping("/{tripId}/pickup")
-    public Trip markPickedUp(@PathVariable String tripId) {
-        return tripService.markPickedUp(tripId);
+    @PatchMapping("/{tripId}/reject")
+    public Trip rejectDriver(
+        @PathVariable String tripId,
+        @Valid @RequestBody DriverAssignmentRequest request
+    ) {
+        return tripService.rejectDriver(tripId, request.driverId());
     }
 
-    @PatchMapping("/{tripId}/complete")
-    public Trip completeTrip(@PathVariable String tripId) {
-        return tripService.completeTrip(tripId);
+    @PatchMapping("/{tripId}/dropoff")
+    public Trip completeTrip(
+        @PathVariable String tripId,
+        @Valid @RequestBody DriverAssignmentRequest request
+    ) {
+        return tripService.completeTrip(tripId, request.driverId());
     }
 
     @PatchMapping("/{tripId}/cancel")

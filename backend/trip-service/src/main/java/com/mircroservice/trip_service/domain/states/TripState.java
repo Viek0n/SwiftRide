@@ -9,10 +9,17 @@ public interface TripState {
         throw invalidTransition("assign a driver");
     }
 
-    default TripState markPickedUp() {
-        throw invalidTransition("mark the rider as picked up");
+    default TripState paid(){
+        throw invalidTransition("paid the trip");
     }
 
+    default TripState pickUp(){
+        throw invalidTransition("trip pickup");
+    }
+
+    default TripState pickedUp(){
+        throw invalidTransition("rider pickup");
+    }
     default TripState complete() {
         throw invalidTransition("complete the trip");
     }
@@ -37,12 +44,18 @@ public interface TripState {
         }
 
         return switch (status) {
+            case REQUESTED -> new RequestedState();
             case MATCHING -> new MatchingState();
-            case PICKUP -> new ArrivingState();
+            case MATCHINGFAIL -> new MatchingFailedState();
+            case PICKUP -> new PickUpState();
             case INPROGRESS -> new InprogressState();
             case CANCELLED -> new CancelledState();
-            case MATCHINGFAIL -> new MatchingFailedState();
-            case COMPLETED -> new CompletedState();
+            case COMPLETE -> new CompleteState();
+            case PAID -> new PaidState();
         };
+    }
+
+    default TripState startMatching() {
+        throw invalidTransition("start matching");
     }
 }
